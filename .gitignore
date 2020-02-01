@@ -31,6 +31,9 @@ build/
 .gradle
 local.properties
 *.iml
+android/app/signature
+android/app/src/debug/google-services.json
+android/app/src/release/google-services.json
 
 # node.js
 #

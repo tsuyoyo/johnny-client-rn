@@ -1,4 +1,4 @@
-package com.johnnyclientrn.generated;
+package pj.sakuchin.percussion.generated;
 
 import java.util.Arrays;
 import java.util.List;
