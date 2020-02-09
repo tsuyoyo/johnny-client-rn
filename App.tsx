@@ -1,7 +1,13 @@
 import * as React from 'react';
+import {Provider, connect} from 'react-redux';
+import {createStore} from 'redux';
+import * as HomeReducer from './src/app/reducers/homes';
 import { Button, View, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import HomeContainer from './src/app/containers/home';
+
+const store = createStore(HomeReducer.reducer);
 
 class HomeScreen extends React.Component {
   render() {
@@ -24,7 +30,7 @@ class DetailsScreen extends React.Component {
         <Text>Details Screen</Text>
         <Button
           title="Go to Details... again"
-          onPress={() => this.props.navigation.push('Details')}
+          onPress={() => this.props.navigation.push('HomeRedux')}
         />
         <Button
           title="Go to Home"
@@ -43,10 +49,21 @@ const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     Details: DetailsScreen,
+    HomeRedux: HomeContainer,
   },
   {
     initialRouteName: 'Home',
   }
 );
 
-export default createAppContainer(AppNavigator);
+let Navigation = createAppContainer(AppNavigator);
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
+    );
+  }
+}
