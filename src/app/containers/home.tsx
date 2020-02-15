@@ -1,24 +1,21 @@
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
-import {HomeState} from '../reducers/homes';
 import {HomeAction} from '../actions/home';
 import * as HomeActionCreator from '../actioncreators/home';
-import {Home} from '../components/home';
+import {HomeComponent} from '../components/home';
+import {JohnnyAppState} from '../states/app';
+import {HomeDispatchProps, HomeStateProps} from '../props/home';
 
-export interface HomeStateProps {
-  count: number;
+
+interface HomeOwnStates {
+  svalue: number
 }
 
-export interface HomeDispatchProps {
-  incrementCount(count: number): void;
-  resetCount(): void;
-}
-
-export interface HomeProps extends HomeStateProps, HomeDispatchProps {}
-
-function mapStateToProps(state: HomeState): HomeStateProps {
+function mapStateToProps(
+  state: JohnnyAppState
+): HomeStateProps {
   return {
-    count: state.count,
+    count: state.home.count,
   };
 }
 
@@ -36,4 +33,4 @@ function mapDispatchToProps(dispatch: Dispatch<HomeAction>): HomeDispatchProps {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Home);
+)(HomeComponent);

@@ -1,13 +1,15 @@
 import * as React from 'react';
 import {Provider, connect} from 'react-redux';
-import {createStore} from 'redux';
-import * as HomeReducer from './src/app/reducers/homes';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+import * as reducers from './src/app/reducers/index';
 import { Button, View, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeContainer from './src/app/containers/home';
+import LoginContainer from './src/app/containers/login';
+import { LoginComponent } from './src/app/components/login';
 
-const store = createStore(HomeReducer.reducer);
 
 class HomeScreen extends React.Component {
   render() {
@@ -23,6 +25,8 @@ class HomeScreen extends React.Component {
   }
 }
 
+// NOTE:
+// Parameters can be passed at navigating https://reactnavigation.org/docs/en/params.html
 class DetailsScreen extends React.Component {
   render() {
     return (
@@ -33,8 +37,8 @@ class DetailsScreen extends React.Component {
           onPress={() => this.props.navigation.push('HomeRedux')}
         />
         <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}
+          title="Go to Login"
+          onPress={() => this.props.navigation.navigate('Login')}
         />
         <Button
           title="Go back"
@@ -49,7 +53,11 @@ const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     Details: DetailsScreen,
+
+    // NOTE :
+    // When component has redux, Container should be specified here.
     HomeRedux: HomeContainer,
+    Login: LoginContainer,
   },
   {
     initialRouteName: 'Home',
@@ -57,6 +65,13 @@ const AppNavigator = createStackNavigator(
 );
 
 let Navigation = createAppContainer(AppNavigator);
+
+const middlewares = [thunk];
+
+const store = createStore(
+  combineReducers(reducers),
+  applyMiddleware(...middlewares)
+);
 
 export default class App extends React.Component {
   render() {

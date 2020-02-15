@@ -1,17 +1,15 @@
 import {HomeAction, IncrementCount, HomeActionType} from '../actions/home';
+import {HomeStateProps} from '../components/home';
 
-export interface HomeState {
-  count: number;
-}
-
-const initialState: HomeState = {
+const initialState: HomeStateProps = {
   count: 0,
 };
 
 export function reducer(
-  state: HomeState = initialState,
+  state: HomeStateProps = initialState,
   action: HomeAction,
-): HomeState {
+): HomeStateProps {
+  console.log(`home's reducer - ${JSON.stringify(state)} : ${action.type.toString()}`)
   switch (action.type) {
     case HomeActionType.INCREMENT_COUNT:
       return {
