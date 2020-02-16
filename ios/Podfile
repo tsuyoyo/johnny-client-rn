@@ -45,4 +45,6 @@ target 'JohnnyClientRn' do
   use_native_modules!
   pod 'react-native-twitter-signin', :path => '../node_modules/react-native-twitter-signin'
 
+  # use_frameworks!
+  pod 'TwitterKit', '~> 3.3.0'
 end

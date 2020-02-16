@@ -13,6 +13,7 @@
 #import <UMCore/UMModuleRegistry.h>
 #import <UMReactNativeAdapter/UMNativeModulesProxy.h>
 #import <UMReactNativeAdapter/UMModuleRegistryAdapter.h>
+#import <TwitterKit/TWTRKit.h>
 
 @implementation AppDelegate
 
@@ -50,6 +51,10 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+  return [[Twitter sharedInstance] application:app openURL:url options:options];
 }
 
 @end
