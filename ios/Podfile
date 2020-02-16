@@ -41,6 +41,8 @@ target 'JohnnyClientRn' do
   # Automatically detect installed unimodules
   use_unimodules!
 
+  pod 'Firebase/Analytics'
+  
   # react-native-cli autolinking
   use_native_modules!
   pod 'react-native-twitter-signin', :path => '../node_modules/react-native-twitter-signin'

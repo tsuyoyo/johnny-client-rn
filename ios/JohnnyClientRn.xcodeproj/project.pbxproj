@@ -48,6 +48,7 @@
 		13B07FAE1A68108700A75B9A /* JohnnyClientRn */ = {
 			isa = PBXGroup;
 			children = (
+				5E20C53823E5635F00793DFF /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -89,7 +90,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				5E20C53823E5635F00793DFF /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* JohnnyClientRn */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
