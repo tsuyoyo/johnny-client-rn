@@ -43,4 +43,6 @@ target 'JohnnyClientRn' do
 
   # react-native-cli autolinking
   use_native_modules!
+  pod 'react-native-twitter-signin', :path => '../node_modules/react-native-twitter-signin'
+
 end
