@@ -6,8 +6,9 @@ import {TwitterButton} from '../components/twitterbutton';
 import { NativeModules } from 'react-native';
 import { firebase } from '@react-native-firebase/auth';
 import {TWITTER_AUTH_TOKEN, TWITTER_AUTH_TOKEN_SECRET} from "../const/secrets"
+import { SignupUserRequest, SignupUserResponse } from '../proto/userService_pb';
 const { RNTwitterSignIn } = NativeModules;
-
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +48,30 @@ export const LoginComponent = (props: LoginProps) => {
         return firebase.auth().signInWithCredential(credential)
       })
       .then(credential => credential.user.getIdToken(false))
-      .then(idToken => console.log(`aaaaaaaaaaa - ${idToken}`));
+      .then(idToken => {
+        console.log(`aaaaaaaaaaa - ${idToken}`)
+
+        const request = new SignupUserRequest();
+        request.setToken(idToken);
+        return axios.post(
+          'http://10.0.2.2:3000/user/signup',
+          request.serializeBinary(),
+          {
+            headers: {
+              'Content-Type': 'application/protobuf'
+            }
+        });
+      })
+      .then(response => {
+        var buf = new ArrayBuffer(response.data.length);
+        var bufView = new Uint8Array(buf);
+        for (var i = 0, strLen = response.data.length; i < strLen; i++) {
+          bufView[i] = response.data.charCodeAt(i);
+        }
+        const r = SignupUserResponse.deserializeBinary(new Uint8Array(buf));
+        console.log(`Response - ${JSON.stringify(response)}`)
+        console.log(`SignupUserResponse - ${r.getUser().getName()}`)
+      });
   };
 
   return(

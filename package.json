@@ -13,6 +13,7 @@
     "@react-native-firebase/auth": "^6.3.3",
     "@types/google-protobuf": "^3.7.2",
     "@types/react-redux": "^7.1.6",
+    "axios": "^0.19.2",
     "expo": "~36.0.0",
     "google-protobuf": "^3.11.4",
     "react": "~16.9.0",
