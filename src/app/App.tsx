@@ -2,13 +2,13 @@ import * as React from 'react';
 import {Provider, connect} from 'react-redux';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import * as reducers from './src/app/reducers/index';
+import * as reducers from './reducers/index';
 import { Button, View, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import HomeContainer from './src/app/containers/home';
-import LoginContainer from './src/app/containers/login';
-import { LoginComponent } from './src/app/components/login';
+import HomeContainer from './containers/home';
+import LoginContainer from './containers/login';
+import { LoginComponent } from './components/login';
 
 
 class HomeScreen extends React.Component {

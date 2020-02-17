@@ -1,14 +1,9 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 import { User } from '../proto/user_pb';
-import {TwitterButton} from '../components/twitterbutton';
-
-import { NativeModules } from 'react-native';
-import { firebase } from '@react-native-firebase/auth';
-import {TWITTER_AUTH_TOKEN, TWITTER_AUTH_TOKEN_SECRET} from "../const/secrets"
 import { SignupUserRequest, SignupUserResponse } from '../proto/userService_pb';
-const { RNTwitterSignIn } = NativeModules;
-import axios from 'axios';
+import * as twitterWrapper from '../apis/twitter';
+import * as UserApi from '../apis/user';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,38 +34,18 @@ export interface LoginProps extends LoginStateProps, LoginDispatchProps {
 
 export const LoginComponent = (props: LoginProps) => {
 
-  let twitterSignIn = () => {
-    RNTwitterSignIn.init(TWITTER_AUTH_TOKEN, TWITTER_AUTH_TOKEN_SECRET);
-    RNTwitterSignIn.logIn()
-      .then(loginData => {
-        const { authToken, authTokenSecret } = loginData
-        const credential = firebase.auth.TwitterAuthProvider.credential(authToken, authTokenSecret);
-        return firebase.auth().signInWithCredential(credential)
-      })
-      .then(credential => credential.user.getIdToken(false))
-      .then(idToken => {
-        console.log(`aaaaaaaaaaa - ${idToken}`)
-
+  const twitterSignIn = () => {
+    twitterWrapper.getFirebaseIdToken()
+      .then((token: string) => {
         const request = new SignupUserRequest();
-        request.setToken(idToken);
-        return axios.post(
-          'http://10.0.2.2:3000/user/signup',
-          request.serializeBinary(),
-          {
-            headers: {
-              'Content-Type': 'application/protobuf'
-            }
-        });
+        request.setToken(token);
+        return UserApi.postUserSignup(request);
       })
-      .then(response => {
-        var buf = new ArrayBuffer(response.data.length);
-        var bufView = new Uint8Array(buf);
-        for (var i = 0, strLen = response.data.length; i < strLen; i++) {
-          bufView[i] = response.data.charCodeAt(i);
-        }
-        const r = SignupUserResponse.deserializeBinary(new Uint8Array(buf));
-        console.log(`Response - ${JSON.stringify(response)}`)
-        console.log(`SignupUserResponse - ${r.getUser().getName()}`)
+      .then((response: SignupUserResponse) => {
+        console.log(`Singup is done - ${response.getUser().getName()}`)
+      })
+      .catch(error => {
+        console.log(`Error - ${error.message}`);
       });
   };
 

@@ -61,4 +61,4 @@ buck-out/
 *.jsbundle
 
 # React code
-src/app/const/secrets.ts
+src/app/configs/secrets.ts
