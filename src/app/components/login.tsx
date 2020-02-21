@@ -26,7 +26,7 @@ export interface LoginStateProps {
 }
 
 export interface LoginDispatchProps {
-  updateLoginInfo(): void
+  updateLoginInfo(user: User, accessToken: string): void
 }
 
 export interface LoginProps extends LoginStateProps, LoginDispatchProps {
@@ -34,16 +34,19 @@ export interface LoginProps extends LoginStateProps, LoginDispatchProps {
 
 export const LoginComponent = (props: LoginProps) => {
 
+  function signup(token: string) {
+    const request = new SignupUserRequest();
+    request.setToken(token);
+
+    return UserApi.postUserSignup(request)
+      .then((response: SignupUserResponse) => {
+        props.updateLoginInfo(response.getUser(), token)
+      });
+  }
+
   const twitterSignIn = () => {
     twitterWrapper.getFirebaseIdToken()
-      .then((token: string) => {
-        const request = new SignupUserRequest();
-        request.setToken(token);
-        return UserApi.postUserSignup(request);
-      })
-      .then((response: SignupUserResponse) => {
-        console.log(`Singup is done - ${response.getUser().getName()}`)
-      })
+      .then((token: string) => signup(token))
       .catch(error => {
         console.log(`Error - ${error.message}`);
       });
@@ -56,9 +59,10 @@ export const LoginComponent = (props: LoginProps) => {
           console.log(`LoginComponent - ${JSON.stringify(props)}`)
           twitterSignIn()
         }}
-        title={`token - ${props.accessToken}`}
+        title="Signup"
         color="#841584"
       />
+      <Text>{props.user.getName()}</Text>
   </View>
   );
 }
