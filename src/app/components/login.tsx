@@ -4,6 +4,7 @@ import { User } from '../proto/user_pb';
 import { SignupUserRequest, SignupUserResponse } from '../proto/userService_pb';
 import * as twitterWrapper from '../apis/twitter';
 import * as UserApi from '../apis/user';
+import { PercussionApiError } from '../proto/error_pb';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,17 +49,16 @@ export const LoginComponent = (props: LoginProps) => {
     twitterWrapper.getFirebaseIdToken()
       .then((token: string) => signup(token))
       .catch(error => {
-        console.log(`Error - ${error.message}`);
+        const apiError = error as PercussionApiError
+        console.log(`Error message - ${apiError.getMessage()}`);
+        console.log(`Error errorCode - ${apiError.getErrorcode()}`);
       });
   };
 
   return(
     <View style={styles.container}>
       <Button
-        onPress={() => {
-          console.log(`LoginComponent - ${JSON.stringify(props)}`)
-          twitterSignIn()
-        }}
+        onPress={() => twitterSignIn()}
         title="Signup"
         color="#841584"
       />
