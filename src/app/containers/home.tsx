@@ -1,32 +1,33 @@
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
-import {HomeAction} from '../actions/home';
-import * as HomeActionCreator from '../actioncreators/home';
-import {HomeComponent} from '../components/home';
+import {incrementCount, resetCount} from '../actions/home';
+import {updateLoginInfo} from '../actions/login';
+import {HomeComponent, HomeDispatchProps, HomeStateProps} from '../components/home';
 import {JohnnyAppState} from '../states/app';
-import {HomeDispatchProps, HomeStateProps} from '../props/home';
-
-
-interface HomeOwnStates {
-  svalue: number
-}
+import { User } from '../proto/user_pb';
+import { ActionBase } from '../actions/actionBase';
 
 function mapStateToProps(
   state: JohnnyAppState
 ): HomeStateProps {
   return {
     count: state.home.count,
+    user: state.login.user,
+    token: state.login.accessToken,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<HomeAction>): HomeDispatchProps {
+function mapDispatchToProps(dispatch: Dispatch<ActionBase>): HomeDispatchProps {
   return {
     incrementCount(count: number) {
-      dispatch(HomeActionCreator.incrementCount(count));
+      dispatch(incrementCount(count));
     },
     resetCount() {
-      dispatch(HomeActionCreator.resetCount());
+      dispatch(resetCount());
     },
+    initLoginState(user: User, token: string) {
+      dispatch(updateLoginInfo(user, token));
+    }
   };
 }
 

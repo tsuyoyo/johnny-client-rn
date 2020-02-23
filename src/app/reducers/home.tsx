@@ -1,22 +1,26 @@
-import {HomeAction, IncrementCount, HomeActionType} from '../actions/home';
+import {IncrementCount} from '../actions/home';
 import {HomeStateProps} from '../components/home';
+import { User } from '../proto/user_pb';
+import { ActionBase } from '../actions/actionBase';
+import { ActionType } from '../actions/actionTypes';
 
 const initialState: HomeStateProps = {
   count: 0,
+  user: new User(),
+  token: "",
 };
 
 export function reducer(
   state: HomeStateProps = initialState,
-  action: HomeAction,
+  action: ActionBase,
 ): HomeStateProps {
-  console.log(`home's reducer - ${JSON.stringify(state)} : ${action.type.toString()}`)
   switch (action.type) {
-    case HomeActionType.INCREMENT_COUNT:
+    case ActionType.INCREMENT_COUNT:
       return {
         ...state,
         count: (action as IncrementCount).count + 1,
       };
-    case HomeActionType.RESET_COUNT:
+    case ActionType.RESET_COUNT:
       return {
         ...state,
         count: 0,

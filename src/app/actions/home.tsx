@@ -1,12 +1,20 @@
 import {Action} from 'redux';
+import { ActionType } from './actionTypes';
+import { ActionBase } from './actionBase';
 
-export enum HomeActionType {
-  INCREMENT_COUNT = 'INCREMENT_COUNT',
-  RESET_COUNT = 'RESET_COUNT',
+export interface IncrementCount extends ActionBase {
+  count: number;
 }
 
-export interface HomeAction extends Action<HomeActionType> {}
+export function incrementCount(count: number): IncrementCount {
+  return {
+    type: ActionType.INCREMENT_COUNT,
+    count: count
+  };
+}
 
-export interface IncrementCount extends HomeAction {
-  count: number;
+export function resetCount(): Action<ActionType> {
+  return {
+    type: ActionType.RESET_COUNT,
+  }
 }
