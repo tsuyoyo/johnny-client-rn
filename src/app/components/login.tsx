@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import {StyleSheet, Text, View, Button, Alert, AlertButton} from 'react-native';
 import { User } from '../proto/user_pb';
 import { SignupUserRequest, SignupUserResponse } from '../proto/userService_pb';
 import * as twitterWrapper from '../apis/twitter';
@@ -49,9 +49,18 @@ export const LoginComponent = (props: LoginProps) => {
     twitterWrapper.getFirebaseIdToken()
       .then((token: string) => signup(token))
       .catch(error => {
-        const apiError = error as PercussionApiError
-        console.log(`Error message - ${apiError.getMessage()}`);
-        console.log(`Error errorCode - ${apiError.getErrorcode()}`);
+        if (error instanceof PercussionApiError) {
+          const apiError = error as PercussionApiError
+          if (apiError.getErrorcode() == PercussionApiError.ErrorCode.USER_HAS_BEEN_ALREADY_REGISTERED) {
+            Alert.alert(
+              'Signup error',
+              "このアカウントは登録済みです。Loginしてください。",
+              [{ text: 'OK' }],
+              {cancelable: true},
+            );
+            console.log("Already registered")
+          }
+        }
       });
   };
 
