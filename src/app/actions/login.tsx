@@ -2,7 +2,7 @@ import {Action} from 'redux';
 import { User } from '../proto/user_pb';
 import {ActionType} from '../actions/actionTypes';
 import {ActionBase} from '../actions/actionBase';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
 
 export interface UpdateLoginInfo extends ActionBase {

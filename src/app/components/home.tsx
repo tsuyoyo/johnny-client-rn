@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
-import {AsyncStorage} from 'react-native';
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
+import AsyncStorage from '@react-native-community/async-storage';
 import { User } from '../proto/user_pb';
 
 const styles = StyleSheet.create({
