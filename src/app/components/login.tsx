@@ -5,6 +5,7 @@ import { SignupUserRequest, SignupUserResponse, PostUserLoginRequest, PostUserLo
 import * as twitterWrapper from '../apis/twitter';
 import * as UserApi from '../apis/user';
 import { PercussionApiError } from '../proto/error_pb';
+import Toast from 'react-native-simple-toast';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,7 +42,18 @@ export const LoginComponent = (props: LoginProps) => {
 
     return UserApi.postUserSignup(request)
       .then((response: SignupUserResponse) => {
+        Toast.show('登録が完了しました');
         props.updateLoginInfo(response.getUser(), token)
+      });
+  }
+
+  function login(token: string) {
+    const request = new PostUserLoginRequest();
+    request.setToken(token);
+    return UserApi.postUserLogin(request)
+      .then((response: PostUserLoginResponse) => {
+        Toast.show('ログインが完了しました');
+        props.updateLoginInfo(response.getUser(), token);
       });
   }
 
@@ -64,20 +76,10 @@ export const LoginComponent = (props: LoginProps) => {
       });
   };
 
-  function login(token: string) {
-    const request = new PostUserLoginRequest();
-    request.setToken(token);
-    return UserApi.postUserLogin(request)
-      .then((response: PostUserLoginResponse) => {
-        props.updateLoginInfo(response.getUser(), token);
-      });
-  }
-
   const twitterLogin = () => {
     twitterWrapper.getFirebaseIdToken()
       .then((token: string) => login(token))
       .catch(error => {
-        console.log(`twitterLogin error - ${JSON.stringify(error)}`);
         if (error instanceof PercussionApiError) {
           const apiError = error as PercussionApiError;
           Alert.alert(
