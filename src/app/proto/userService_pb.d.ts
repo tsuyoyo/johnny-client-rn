@@ -46,6 +46,48 @@ export namespace SignupUserResponse {
   }
 }
 
+export class PostUserLoginRequest extends jspb.Message {
+  getToken(): string;
+  setToken(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PostUserLoginRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: PostUserLoginRequest): PostUserLoginRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: PostUserLoginRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PostUserLoginRequest;
+  static deserializeBinaryFromReader(message: PostUserLoginRequest, reader: jspb.BinaryReader): PostUserLoginRequest;
+}
+
+export namespace PostUserLoginRequest {
+  export type AsObject = {
+    token: string,
+  }
+}
+
+export class PostUserLoginResponse extends jspb.Message {
+  hasUser(): boolean;
+  clearUser(): void;
+  getUser(): proto_user_pb.User | undefined;
+  setUser(value?: proto_user_pb.User): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PostUserLoginResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: PostUserLoginResponse): PostUserLoginResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: PostUserLoginResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PostUserLoginResponse;
+  static deserializeBinaryFromReader(message: PostUserLoginResponse, reader: jspb.BinaryReader): PostUserLoginResponse;
+}
+
+export namespace PostUserLoginResponse {
+  export type AsObject = {
+    user?: proto_user_pb.User.AsObject,
+  }
+}
+
 export class GetUserProfileResponse extends jspb.Message {
   hasUser(): boolean;
   clearUser(): void;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Alert, AlertButton} from 'react-native';
 import { User } from '../proto/user_pb';
-import { SignupUserRequest, SignupUserResponse } from '../proto/userService_pb';
+import { SignupUserRequest, SignupUserResponse, PostUserLoginRequest, PostUserLoginResponse } from '../proto/userService_pb';
 import * as twitterWrapper from '../apis/twitter';
 import * as UserApi from '../apis/user';
 import { PercussionApiError } from '../proto/error_pb';
@@ -64,11 +64,43 @@ export const LoginComponent = (props: LoginProps) => {
       });
   };
 
+  function login(token: string) {
+    const request = new PostUserLoginRequest();
+    request.setToken(token);
+    return UserApi.postUserLogin(request)
+      .then((response: PostUserLoginResponse) => {
+        props.updateLoginInfo(response.getUser(), token);
+      });
+  }
+
+  const twitterLogin = () => {
+    twitterWrapper.getFirebaseIdToken()
+      .then((token: string) => login(token))
+      .catch(error => {
+        console.log(`twitterLogin error - ${JSON.stringify(error)}`);
+        if (error instanceof PercussionApiError) {
+          const apiError = error as PercussionApiError;
+          Alert.alert(
+            'Login error',
+            "Loginに失敗しました。まだ登録してない場合は登録してください。",
+            [{ text: 'OK' }],
+            {cancelable: true},
+          );
+          console.log("Already registered")
+        }
+      });
+  }
+
   return(
     <View style={styles.container}>
       <Button
         onPress={() => twitterSignIn()}
         title="Signup"
+        color="#841584"
+      />
+      <Button
+        onPress={() => twitterLogin()}
+        title="Login"
         color="#841584"
       />
       <Text>{props.user.getName()}</Text>

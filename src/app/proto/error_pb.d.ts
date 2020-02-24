@@ -33,6 +33,7 @@ export namespace PercussionApiError {
     USER_HAS_BEEN_ALREADY_REGISTERED: 3;
     DB_ERROR: 4;
     INVALID_PARAMETER: 5;
+    AUTHENTICATION_ERROR: 6;
   }
 
   export const ErrorCode: ErrorCodeMap;

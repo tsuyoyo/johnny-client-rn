@@ -1,4 +1,4 @@
-import { SignupUserRequest, SignupUserResponse } from "../proto/userService_pb";
+import { SignupUserRequest, SignupUserResponse, PostUserLoginRequest, PostUserLoginResponse } from "../proto/userService_pb";
 import * as httpClient from './httpClient';
 
 export function postUserSignup(
@@ -9,4 +9,14 @@ export function postUserSignup(
     .then((binary: Uint8Array) => new Promise((resolve) => {
       resolve(SignupUserResponse.deserializeBinary(binary));
     }));
+}
+
+export function postUserLogin(
+  request: PostUserLoginRequest
+): Promise<PostUserLoginResponse> {
+  return httpClient
+  .post("/user/login", request)
+  .then((binary: Uint8Array) => new Promise((resolve) => {
+    resolve(PostUserLoginResponse.deserializeBinary(binary));
+  }));
 }
