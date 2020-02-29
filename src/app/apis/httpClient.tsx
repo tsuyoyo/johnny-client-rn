@@ -1,31 +1,43 @@
 import { Message } from "google-protobuf";
-import axios from 'axios';
-import { API_BASE_URL, COMMON_AXIOS_CONFIG } from '../configs/common';
+import axios, { AxiosInstance } from 'axios';
+import { API_BASE_URL, COMMON_REQUEST_HEADERS } from '../configs/common';
 import { PercussionApiError } from "../proto/error_pb";
+import * as AsyncStorageKey from '../consts/asyncStorageKey';
+import AsyncStorage from '@react-native-community/async-storage';
 
-function getBinaryData(response): Uint8Array {
-  const dataSize = response.data.length;
-  var binaryData = new Uint8Array(new ArrayBuffer(dataSize));
-  for (var i = 0, strLen = dataSize; i < strLen; i++) {
-    binaryData[i] = response.data.charCodeAt(i);
-  }
-  return binaryData;
+function createAxios(): Promise<AxiosInstance> {
+  return Promise.all([
+    AsyncStorage.getItem(AsyncStorageKey.USER_ID),
+    AsyncStorage.getItem(AsyncStorageKey.TOKEN)
+  ]).then(([userId, token]) => axios.create(
+    {
+      // NOTE : Without responseType, response is coverted to string.
+      responseType: 'arraybuffer',
+            baseURL: API_BASE_URL,
+      headers: {
+        ...COMMON_REQUEST_HEADERS,
+        'x-api-token': token,
+        'x-user-id': userId
+      },
+    }
+  )).then(axiosInstance => {
+    axiosInstance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        throw PercussionApiError.deserializeBinary(error.response.data);
+      }
+    );
+    return axiosInstance;
+  });
 }
 
 export function post(
   path: string,
-  request: Message,
-  config = COMMON_AXIOS_CONFIG
+  request: Message
 ): Promise<Uint8Array> {
-  axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      throw PercussionApiError.deserializeBinary(
-        getBinaryData(error.response)
-      );
-    }
+  return createAxios().then(axiosInstance =>
+    axiosInstance
+      .post(path, request.serializeBinary())
+      .then(response => response.data)
   );
-  return axios
-    .post(`${API_BASE_URL}${path}`, request.serializeBinary(), config)
-    .then(response => new Promise(resolve => resolve(getBinaryData(response))));
 }

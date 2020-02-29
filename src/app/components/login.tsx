@@ -36,11 +36,21 @@ export interface LoginProps extends LoginStateProps, LoginDispatchProps {
 
 export const LoginComponent = (props: LoginProps) => {
 
-  function signup(token: string) {
+  const getSignupUserRequest = (token: string) => {
     const request = new SignupUserRequest();
     request.setToken(token);
+    return request;
+  }
 
-    return UserApi.postUserSignup(request)
+  const postUserLoginRequest = (token: string) => {
+    const request = new PostUserLoginRequest();
+    request.setToken(token);
+    return request;
+  }
+
+  function signup(token: string) {
+    return UserApi
+      .postUserSignup(getSignupUserRequest(token))
       .then((response: SignupUserResponse) => {
         Toast.show('登録が完了しました');
         props.updateLoginInfo(response.getUser(), token)
@@ -48,13 +58,21 @@ export const LoginComponent = (props: LoginProps) => {
   }
 
   function login(token: string) {
-    const request = new PostUserLoginRequest();
-    request.setToken(token);
-    return UserApi.postUserLogin(request)
+    return UserApi
+      .postUserLogin(postUserLoginRequest(token))
       .then((response: PostUserLoginResponse) => {
         Toast.show('ログインが完了しました');
         props.updateLoginInfo(response.getUser(), token);
       });
+  }
+
+  const showAlert = (title: string, message: string) => {
+    Alert.alert(
+      title,
+      message,
+      [{ text: 'OK' }],
+      {cancelable: true},
+    );
   }
 
   const twitterSignIn = () => {
@@ -62,16 +80,7 @@ export const LoginComponent = (props: LoginProps) => {
       .then((token: string) => signup(token))
       .catch(error => {
         if (error instanceof PercussionApiError) {
-          const apiError = error as PercussionApiError
-          if (apiError.getErrorcode() == PercussionApiError.ErrorCode.USER_HAS_BEEN_ALREADY_REGISTERED) {
-            Alert.alert(
-              'Signup error',
-              "このアカウントは登録済みです。Loginしてください。",
-              [{ text: 'OK' }],
-              {cancelable: true},
-            );
-            console.log("Already registered")
-          }
+          showAlert('Signup error', (error as PercussionApiError).getMessage());
         }
       });
   };
@@ -82,13 +91,11 @@ export const LoginComponent = (props: LoginProps) => {
       .catch(error => {
         if (error instanceof PercussionApiError) {
           const apiError = error as PercussionApiError;
-          Alert.alert(
-            'Login error',
-            "Loginに失敗しました。まだ登録してない場合は登録してください。",
-            [{ text: 'OK' }],
-            {cancelable: true},
-          );
-          console.log("Already registered")
+          if (apiError.getErrorcode() == PercussionApiError.ErrorCode.AUTHENTICATION_ERROR) {
+            Toast.show(apiError.getMessage())
+          } else {
+            showAlert('Login error', apiError.getMessage());
+          }
         }
       });
   }
