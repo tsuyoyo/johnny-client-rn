@@ -13,7 +13,7 @@ function createAxios(): Promise<AxiosInstance> {
     {
       // NOTE : Without responseType, response is coverted to string.
       responseType: 'arraybuffer',
-            baseURL: API_BASE_URL,
+      baseURL: API_BASE_URL,
       headers: {
         ...COMMON_REQUEST_HEADERS,
         'x-api-token': token,
@@ -23,9 +23,7 @@ function createAxios(): Promise<AxiosInstance> {
   )).then(axiosInstance => {
     axiosInstance.interceptors.response.use(
       (response) => response,
-      (error) => {
-        throw PercussionApiError.deserializeBinary(error.response.data);
-      }
+      (error) => { throw PercussionApiError.deserializeBinary(error.response.data) }
     );
     return axiosInstance;
   });
