@@ -3,6 +3,7 @@
 
 import * as jspb from "google-protobuf";
 import * as proto_user_pb from "../proto/user_pb";
+import * as proto_area_pb from "../proto/area_pb";
 
 export class SignupUserRequest extends jspb.Message {
   getToken(): string;
@@ -141,6 +142,28 @@ export namespace PutUserProfileRequest {
   export type AsObject = {
     user?: proto_user_pb.User.AsObject,
     userprofile?: proto_user_pb.UserProfile.AsObject,
+  }
+}
+
+export class PutUserProfileActiveAreasRequest extends jspb.Message {
+  clearActivityareasList(): void;
+  getActivityareasList(): Array<proto_area_pb.Area>;
+  setActivityareasList(value: Array<proto_area_pb.Area>): void;
+  addActivityareas(value?: proto_area_pb.Area, index?: number): proto_area_pb.Area;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PutUserProfileActiveAreasRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: PutUserProfileActiveAreasRequest): PutUserProfileActiveAreasRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: PutUserProfileActiveAreasRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PutUserProfileActiveAreasRequest;
+  static deserializeBinaryFromReader(message: PutUserProfileActiveAreasRequest, reader: jspb.BinaryReader): PutUserProfileActiveAreasRequest;
+}
+
+export namespace PutUserProfileActiveAreasRequest {
+  export type AsObject = {
+    activityareasList: Array<proto_area_pb.Area.AsObject>,
   }
 }
 

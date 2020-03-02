@@ -8,8 +8,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeContainer from './containers/home';
 import LoginContainer from './containers/login';
-import { LoginComponent } from './components/login';
-
+import MyProfileContainer from './containers/myProfile';
 
 class HomeScreen extends React.Component {
   render() {
@@ -41,6 +40,10 @@ class DetailsScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('Login')}
         />
         <Button
+          title="Go to profile"
+          onPress={() => this.props.navigation.navigate('Profile')}
+        />
+        <Button
           title="Go back"
           onPress={() => this.props.navigation.goBack()}
         />
@@ -58,6 +61,7 @@ const AppNavigator = createStackNavigator(
     // When component has redux, Container should be specified here.
     HomeRedux: HomeContainer,
     Login: LoginContainer,
+    Profile: MyProfileContainer,
   },
   {
     initialRouteName: 'Home',

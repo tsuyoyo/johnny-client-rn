@@ -11,8 +11,7 @@ function createAxios(): Promise<AxiosInstance> {
     AsyncStorage.getItem(AsyncStorageKey.TOKEN)
   ]).then(([userId, token]) => axios.create(
     {
-      // NOTE : Without responseType, response is coverted to string.
-      responseType: 'arraybuffer',
+      responseType: 'arraybuffer', // NOTE : Without responseType, response is coverted to string.
       baseURL: API_BASE_URL,
       headers: {
         ...COMMON_REQUEST_HEADERS,
@@ -27,6 +26,17 @@ function createAxios(): Promise<AxiosInstance> {
     );
     return axiosInstance;
   });
+}
+
+export function get(
+  path: string,
+  params: object = {}
+): Promise<Uint8Array> {
+  return createAxios().then(axiosInstance =>
+    axiosInstance
+      .get(path, { params: params })
+      .then(response => response.data)
+  );
 }
 
 export function post(

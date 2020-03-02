@@ -1,4 +1,3 @@
-import {Action} from 'redux';
 import { User } from '../proto/user_pb';
 import {ActionType} from '../actions/actionTypes';
 import {ActionBase} from '../actions/actionBase';
