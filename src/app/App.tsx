@@ -9,6 +9,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeContainer from './containers/home';
 import LoginContainer from './containers/login';
 import MyProfileContainer from './containers/myProfile';
+import AreaSelectionContainer from './containers/selectArea';
 
 class HomeScreen extends React.Component {
   render() {
@@ -44,6 +45,10 @@ class DetailsScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('Profile')}
         />
         <Button
+          title="Go to area selection"
+          onPress={() => this.props.navigation.navigate('AreaSelection')}
+        />
+        <Button
           title="Go back"
           onPress={() => this.props.navigation.goBack()}
         />
@@ -62,6 +67,7 @@ const AppNavigator = createStackNavigator(
     HomeRedux: HomeContainer,
     Login: LoginContainer,
     Profile: MyProfileContainer,
+    AreaSelection: AreaSelectionContainer,
   },
   {
     initialRouteName: 'Home',
