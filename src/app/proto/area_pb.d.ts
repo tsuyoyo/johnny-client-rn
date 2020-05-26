@@ -31,6 +31,38 @@ export namespace Area {
   }
 }
 
+export class City extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  getName(): string;
+  setName(value: string): void;
+
+  getZipcode(): string;
+  setZipcode(value: string): void;
+
+  getPrefecture(): PrefectureMap[keyof PrefectureMap];
+  setPrefecture(value: PrefectureMap[keyof PrefectureMap]): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): City.AsObject;
+  static toObject(includeInstance: boolean, msg: City): City.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: City, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): City;
+  static deserializeBinaryFromReader(message: City, reader: jspb.BinaryReader): City;
+}
+
+export namespace City {
+  export type AsObject = {
+    id: string,
+    name: string,
+    zipcode: string,
+    prefecture: PrefectureMap[keyof PrefectureMap],
+  }
+}
+
 export interface PrefectureMap {
   UNKNOWN: 0;
   HOKKAIDO: 1;

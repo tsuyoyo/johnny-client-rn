@@ -1,4 +1,10 @@
-import { SignupUserRequest, SignupUserResponse, PostUserLoginRequest, PostUserLoginResponse, GetUserProfileResponse } from "../proto/userService_pb";
+import {
+  SignupUserRequest,
+  SignupUserResponse,
+  PostUserLoginRequest,
+  PostUserLoginResponse,
+  GetUserProfileResponse
+} from "../proto/userService_pb";
 import * as httpClient from './httpClient';
 
 export function postUserSignup(
