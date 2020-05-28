@@ -8,7 +8,7 @@ export function getSuggestedCities(
 ): Promise<GetSuggestCityResponse> {
   return httpClient
     .get(`/suggestion/city`, { zipCode: partOfZipCode })
-    .then((binary: Uint8Array) => new Promise((resolve) =>
+    .then((binary: Uint8Array) => new Promise((resolve) => {
       resolve(GetSuggestCityResponse.deserializeBinary(binary))
-    ));
+    }));
 }

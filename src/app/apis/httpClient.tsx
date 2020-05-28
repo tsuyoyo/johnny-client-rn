@@ -4,6 +4,7 @@ import { API_BASE_URL, COMMON_REQUEST_HEADERS } from '../configs/common';
 import { PercussionApiError } from "../proto/error_pb";
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
 import AsyncStorage from '@react-native-community/async-storage';
+import { decode } from "base64-arraybuffer";
 
 function createAxios(): Promise<AxiosInstance> {
   return Promise.all([
@@ -11,18 +12,23 @@ function createAxios(): Promise<AxiosInstance> {
     AsyncStorage.getItem(AsyncStorageKey.TOKEN)
   ]).then(([userId, token]) => axios.create(
     {
-      responseType: 'arraybuffer', // NOTE : Without responseType, response is coverted to string.
       baseURL: API_BASE_URL,
       headers: {
         ...COMMON_REQUEST_HEADERS,
         'x-api-token': token,
-        'x-user-id': userId
+        'x-user-id': userId,
+        'Content-Type': "application/protobuf",
       },
     }
-  )).then(axiosInstance => {
+  ))
+  .then(axiosInstance => {
     axiosInstance.interceptors.response.use(
       (response) => response,
-      (error) => { throw PercussionApiError.deserializeBinary(error.response.data) }
+      (error) => {
+        throw PercussionApiError.deserializeBinary(
+          new Uint8Array(decode(error.response.data))
+        )
+      }
     );
     return axiosInstance;
   });
@@ -35,7 +41,7 @@ export function get(
   return createAxios().then(axiosInstance =>
     axiosInstance
       .get(path, { params: params })
-      .then(response => response.data)
+      .then(response => new Uint8Array(decode(response.data)))
   );
 }
 
@@ -46,6 +52,6 @@ export function post(
   return createAxios().then(axiosInstance =>
     axiosInstance
       .post(path, request.serializeBinary())
-      .then(response => response.data)
+      .then(response => new Uint8Array(decode(response.data)))
   );
 }

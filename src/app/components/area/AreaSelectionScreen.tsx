@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useState, useReducer } from 'react';
+import * as SuggestionApi from '../../apis/suggestion';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { GetSuggestCityResponse } from '../../proto/suggestService_pb';
 
 export interface AreaSelectionStateProps {
 }
@@ -26,9 +28,32 @@ const styles = StyleSheet.create({
 });
 
 export const AreaSelectionScreenComponent = () => {
-  return(
-    <View style={styles.container}>
-      <Text>aaaaaaaaaaaaaaaaaaaa</Text>
+  const [cities, setSuggestedCities] = useState([]);
+
+  const fetchSuggestedCities = async (zipCode: string) => {
+    if (zipCode.length == 0) {
+      setSuggestedCities([]);
+    }
+    if (zipCode.length > 3) {
+      SuggestionApi
+        .getSuggestedCities(zipCode)
+        .then((response: GetSuggestCityResponse) =>
+          setSuggestedCities(response.getCitiesList())
+        )
+        .catch((e) => console.log(`Suggestion error - ${e.message}`));
+    }
+  }
+
+  return (
+    <View>
+      <TextInput
+        placeholder={'Input zip code'}
+        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        onChangeText={fetchSuggestedCities}
+        keyboardType={'numeric'}
+        maxLength={7}
+      />
+      <Text>Len of cities = {cities.length}</Text>
     </View>
   );
 }
