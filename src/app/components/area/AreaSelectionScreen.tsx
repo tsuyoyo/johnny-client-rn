@@ -1,7 +1,11 @@
 import React, { useState, useReducer } from 'react';
 import * as SuggestionApi from '../../apis/suggestion';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, } from 'react-native';
+// import { ListItem, } from 'native-base';
 import { GetSuggestCityResponse } from '../../proto/suggestService_pb';
+import { FlatList } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-navigation';
+import Ripple from 'react-native-material-ripple';
 
 export interface AreaSelectionStateProps {
 }
@@ -16,8 +20,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   textInput: {
     fontSize: 24,
@@ -27,25 +29,33 @@ const styles = StyleSheet.create({
   },
 });
 
+const cityOptionStyles = StyleSheet.create({
+  container: {
+    paddingStart: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingEnd: 16,
+  },
+});
+
 export const AreaSelectionScreenComponent = () => {
   const [cities, setSuggestedCities] = useState([]);
 
   const fetchSuggestedCities = async (zipCode: string) => {
     if (zipCode.length == 0) {
       setSuggestedCities([]);
-    }
-    if (zipCode.length > 3) {
+    } else {
       SuggestionApi
         .getSuggestedCities(zipCode)
-        .then((response: GetSuggestCityResponse) =>
-          setSuggestedCities(response.getCitiesList())
-        )
+        .then((response: GetSuggestCityResponse) => {
+          setSuggestedCities(response.getCitiesList());
+        })
         .catch((e) => console.log(`Suggestion error - ${e.message}`));
     }
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         placeholder={'Input zip code'}
         style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -53,7 +63,18 @@ export const AreaSelectionScreenComponent = () => {
         keyboardType={'numeric'}
         maxLength={7}
       />
-      <Text>Len of cities = {cities.length}</Text>
+      <SafeAreaView>
+        <FlatList
+          data={cities}
+          keyExtractor={city => city.id}
+          renderItem={({item}) =>
+              <Ripple style={cityOptionStyles.container}>
+                <Text>{item.getName()}</Text>
+              </Ripple>
+          }/>
+      </SafeAreaView>
+      {/* <Text>Len of cities = {cities.length}</Text> */}
+
     </View>
   );
 }
