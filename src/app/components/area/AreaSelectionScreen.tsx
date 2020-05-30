@@ -1,11 +1,12 @@
 import React, { useState, useReducer } from 'react';
 import * as SuggestionApi from '../../apis/suggestion';
-import { StyleSheet, View, Text, TextInput, } from 'react-native';
+import { StyleSheet, View, TextInput, } from 'react-native';
 // import { ListItem, } from 'native-base';
 import { GetSuggestCityResponse } from '../../proto/suggestService_pb';
 import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-navigation';
 import Ripple from 'react-native-material-ripple';
+import { ListItem, Text, Input, InputGroup, Item } from 'native-base';
 
 export interface AreaSelectionStateProps {
 }
@@ -22,7 +23,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   textInput: {
-    fontSize: 24,
+    shadowColor: '#ccc',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 0,
+    shadowOpacity: 1,
+    elevation: 2,
   },
   textView: {
     fontSize: 32,
@@ -56,23 +64,28 @@ export const AreaSelectionScreenComponent = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder={'Input zip code'}
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        onChangeText={fetchSuggestedCities}
-        keyboardType={'numeric'}
-        maxLength={7}
-      />
-      <SafeAreaView>
-        <FlatList
-          data={cities}
-          keyExtractor={city => city.id}
-          renderItem={({item}) =>
-              <Ripple style={cityOptionStyles.container}>
+      <InputGroup
+        style={styles.textInput}
+        borderType="regular"
+        >
+        <Input
+          placeholder={'Input zip code'}
+          onChangeText={fetchSuggestedCities}
+          keyboardType={'numeric'}
+          maxLength={7}
+        />
+      </InputGroup>
+      <FlatList
+        data={cities}
+        keyExtractor={city => city.id}
+        renderItem={({item}) =>
+            <Ripple>
+              <ListItem>
                 <Text>{item.getName()}</Text>
-              </Ripple>
-          }/>
-      </SafeAreaView>
+              </ListItem>
+            </Ripple>
+        }/>
+        <Text>{cities.length}</Text>
       {/* <Text>Len of cities = {cities.length}</Text> */}
 
     </View>
