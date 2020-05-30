@@ -5,7 +5,8 @@ export const API_BASE_URL = Platform.OS === 'ios'
   : "http://10.0.2.2:3000";
 
 export const COMMON_REQUEST_HEADERS = {
-  'Content-Type': 'application/protobuf'
+  'x-api-request-type': 'application/protobuf',
+  'Content-Type': 'application/protobuf',
 }
 
 export const COMMON_AXIOS_CONFIG = {

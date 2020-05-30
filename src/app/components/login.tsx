@@ -1,10 +1,10 @@
-import React from 'react';
-import {StyleSheet, Text, View, Button, Alert, AlertButton} from 'react-native';
+import React, { useState } from 'react';
+import {StyleSheet, Text, View, Alert, ActivityIndicator} from 'react-native';
 import { User } from '../proto/user_pb';
-import { SignupUserRequest, SignupUserResponse, PostUserLoginRequest, PostUserLoginResponse } from '../proto/userService_pb';
-import * as twitterWrapper from '../apis/twitter';
-import * as UserApi from '../apis/user';
 import { PercussionApiError } from '../proto/error_pb';
+import Toast from 'react-native-simple-toast';
+import { TwitterLoginButton } from './twitterLoginButton';
+import { TwitterSignupButton } from './twitterSignupButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,75 +35,57 @@ export interface LoginProps extends LoginStateProps, LoginDispatchProps {
 
 export const LoginComponent = (props: LoginProps) => {
 
-  function signup(token: string) {
-    const request = new SignupUserRequest();
-    request.setToken(token);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-    return UserApi.postUserSignup(request)
-      .then((response: SignupUserResponse) => {
-        props.updateLoginInfo(response.getUser(), token)
-      });
+  const showAlert = (title: string, message: string) => {
+    Alert.alert(
+      title,
+      message,
+      [{ text: 'OK' }],
+      {cancelable: true},
+    );
   }
 
-  const twitterSignIn = () => {
-    twitterWrapper.getFirebaseIdToken()
-      .then((token: string) => signup(token))
-      .catch(error => {
-        if (error instanceof PercussionApiError) {
-          const apiError = error as PercussionApiError
-          if (apiError.getErrorcode() == PercussionApiError.ErrorCode.USER_HAS_BEEN_ALREADY_REGISTERED) {
-            Alert.alert(
-              'Signup error',
-              "このアカウントは登録済みです。Loginしてください。",
-              [{ text: 'OK' }],
-              {cancelable: true},
-            );
-            console.log("Already registered")
-          }
-        }
-      });
-  };
-
-  function login(token: string) {
-    const request = new PostUserLoginRequest();
-    request.setToken(token);
-    return UserApi.postUserLogin(request)
-      .then((response: PostUserLoginResponse) => {
-        props.updateLoginInfo(response.getUser(), token);
-      });
+  const renderLoading = (show: boolean) => {
+    if (show) {
+      return(<ActivityIndicator size="large" color="#0000ff" />)
+    } else {
+      return null
+    }
   }
 
-  const twitterLogin = () => {
-    twitterWrapper.getFirebaseIdToken()
-      .then((token: string) => login(token))
-      .catch(error => {
-        console.log(`twitterLogin error - ${JSON.stringify(error)}`);
-        if (error instanceof PercussionApiError) {
-          const apiError = error as PercussionApiError;
-          Alert.alert(
-            'Login error',
-            "Loginに失敗しました。まだ登録してない場合は登録してください。",
-            [{ text: 'OK' }],
-            {cancelable: true},
-          );
-          console.log("Already registered")
-        }
-      });
+  const onTwitterSignUpSuccess = (user: User, token: string) => {
+    Toast.show(`${user.getName()}さん、ようこそ`);
+    props.updateLoginInfo(user, token);
+  }
+
+  const onTwitterSignUpError = (error: PercussionApiError) => {
+    showAlert('登録エラー', error.getMessage());
+  }
+
+  const onTwitterLoginSuccess = (user: User, token: string) => {
+    Toast.show(`${user.getName()}さん、ログインしました`);
+    props.updateLoginInfo(user, token);
+  }
+
+  const onTwitterLoginError = (error: PercussionApiError) => {
+    showAlert('ログインエラー', error.getMessage());
   }
 
   return(
     <View style={styles.container}>
-      <Button
-        onPress={() => twitterSignIn()}
-        title="Signup"
-        color="#841584"
+      <TwitterSignupButton
+        onProcessing={setIsProcessing}
+        onTwitterSignupSuccess={onTwitterSignUpSuccess}
+        onTwitterSignupError={onTwitterSignUpError}
       />
-      <Button
-        onPress={() => twitterLogin()}
-        title="Login"
-        color="#841584"
+      <TwitterLoginButton
+        onProcessing={setIsProcessing}
+        onTwitterLoginSuccess={onTwitterLoginSuccess}
+        onTwitterLoginError={onTwitterLoginError}
       />
       <Text>{props.user.getName()}</Text>
-  </View>
+      {renderLoading(isProcessing)}
+    </View>
   );
 }

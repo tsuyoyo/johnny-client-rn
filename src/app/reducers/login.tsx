@@ -1,5 +1,5 @@
 import {LoginStateProps, LoginDispatchProps, LoginComponent} from '../components/login';
-import { User } from '../proto/user_pb';
+import { User, UserProfile } from '../proto/user_pb';
 import { UpdateLoginInfo } from '../actions/login';
 import { ActionBase } from '../actions/actionBase';
 import { ActionType } from '../actions/actionTypes';

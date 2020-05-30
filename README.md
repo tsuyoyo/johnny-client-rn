@@ -8,6 +8,8 @@ Client application both for Android and iOS.
 2. git clone this repository
 3. `cp -r <SecretDirectory> <RepositoryDir>`
 4. cd ios & pod install
+5. `react-native link`
+6. (For native base) `expo install @expo/vector-icons`
 
 # Develpment notes
 

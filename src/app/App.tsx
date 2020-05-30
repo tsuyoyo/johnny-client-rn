@@ -8,8 +8,10 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeContainer from './containers/home';
 import LoginContainer from './containers/login';
-import { LoginComponent } from './components/login';
-
+import MyProfileContainer from './containers/myProfile';
+import AreaSelectionContainer from './containers/selectArea';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 class HomeScreen extends React.Component {
   render() {
@@ -41,6 +43,14 @@ class DetailsScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('Login')}
         />
         <Button
+          title="Go to profile"
+          onPress={() => this.props.navigation.navigate('Profile')}
+        />
+        <Button
+          title="Go to area selection"
+          onPress={() => this.props.navigation.navigate('AreaSelection')}
+        />
+        <Button
           title="Go back"
           onPress={() => this.props.navigation.goBack()}
         />
@@ -58,6 +68,8 @@ const AppNavigator = createStackNavigator(
     // When component has redux, Container should be specified here.
     HomeRedux: HomeContainer,
     Login: LoginContainer,
+    Profile: MyProfileContainer,
+    AreaSelection: AreaSelectionContainer,
   },
   {
     initialRouteName: 'Home',
@@ -74,6 +86,22 @@ const store = createStore(
 );
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isReady: false,
+    };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+    this.setState({ isReady: true });
+  }
+
   render() {
     return (
       <Provider store={store}>

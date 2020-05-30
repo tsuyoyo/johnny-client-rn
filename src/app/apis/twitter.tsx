@@ -8,11 +8,10 @@ export function getFirebaseIdToken(): Promise<string> {
     TWITTER_AUTH_TOKEN, TWITTER_AUTH_TOKEN_SECRET
   );
   return RNTwitterSignIn.logIn()
-    .then(({ authToken, authTokenSecret }) => {
-      const credential = firebase.auth.TwitterAuthProvider
-        .credential(authToken, authTokenSecret);
-
-      return firebase.auth().signInWithCredential(credential)
-    })
+    .then(({ authToken, authTokenSecret }) =>
+      firebase.auth.TwitterAuthProvider
+        .credential(authToken, authTokenSecret)
+    )
+    .then(credential => firebase.auth().signInWithCredential(credential))
     .then(credential => credential.user.getIdToken(false))
 }
