@@ -1,14 +1,18 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import * as SuggestionApi from '../../apis/suggestion';
-import { StyleSheet, View, TextInput, } from 'react-native';
-// import { ListItem, } from 'native-base';
+import * as UserApi from '../../apis/user';
+import { StyleSheet, View, } from 'react-native';
 import { GetSuggestCityResponse } from '../../proto/suggestService_pb';
-import { FlatList } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-navigation';
-import Ripple from 'react-native-material-ripple';
-import { ListItem, Text, Input, InputGroup, Item } from 'native-base';
+import { Input, InputGroup, Button, Text } from 'native-base';
+import { City } from '../../proto/area_pb';
+import { CityList } from './CityList';
+import { SelectedCitiesHorizontalList } from './SelectedCitiesList';
+import { StackActions } from 'react-navigation';
+import { PutUserCityRequest } from '../../proto/userService_pb';
+import { User } from '../../proto/user_pb';
 
 export interface AreaSelectionStateProps {
+  user: User,
 }
 
 export interface AreaSelectionDispatchProps {
@@ -26,28 +30,25 @@ const styles = StyleSheet.create({
     shadowColor: '#ccc',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 0.5,
     },
     shadowRadius: 0,
-    shadowOpacity: 1,
-    elevation: 2,
+    shadowOpacity: 0,
+    elevation: 1,
   },
   textView: {
     fontSize: 32,
   },
-});
-
-const cityOptionStyles = StyleSheet.create({
-  container: {
-    paddingStart: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingEnd: 16,
+  saveButton: {
   },
 });
 
-export const AreaSelectionScreenComponent = () => {
+
+export const AreaSelectionScreenComponent = (props: AreaSelectionProps) => {
+
   const [cities, setSuggestedCities] = useState([]);
+
+  const [selectedCities, updateSelectedCities] = useState([]);
 
   const fetchSuggestedCities = async (zipCode: string) => {
     if (zipCode.length == 0) {
@@ -62,6 +63,40 @@ export const AreaSelectionScreenComponent = () => {
     }
   }
 
+  const addCityToSelection = (city: City) => {
+    if (!selectedCities.includes(city)) {
+      updateSelectedCities([...selectedCities, city]);
+    }
+  };
+
+  const removeCityFromSelection = (city: City) => {
+    updateSelectedCities(selectedCities.filter((c) => c !== city));
+  };
+
+  const renderSaveButton = () => {
+    if (selectedCities.length != 0) {
+      return (
+        <Button
+          style={styles.saveButton}
+          onPress={() => {
+            if (!props.user) {
+              alert("Loginしてません");
+              return;
+            }
+            const request = new PutUserCityRequest();
+            request.setCitiesList(selectedCities);
+            UserApi.putUserProfileArea(props.user.getId(), request)
+              .then(() => alert("put is done"))
+              .catch((e) => alert(e.message));
+          }}>
+          <Text>Update</Text>
+        </Button>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <InputGroup
@@ -75,19 +110,13 @@ export const AreaSelectionScreenComponent = () => {
           maxLength={7}
         />
       </InputGroup>
-      <FlatList
-        data={cities}
-        keyExtractor={city => city.id}
-        renderItem={({item}) =>
-            <Ripple>
-              <ListItem>
-                <Text>{item.getName()}</Text>
-              </ListItem>
-            </Ripple>
-        }/>
-        <Text>{cities.length}</Text>
-      {/* <Text>Len of cities = {cities.length}</Text> */}
-
+      <CityList
+        cities={cities}
+        onItemClicked={addCityToSelection} />
+      <SelectedCitiesHorizontalList
+        cities={selectedCities}
+        onCityClicked={removeCityFromSelection} />
+      {renderSaveButton()}
     </View>
   );
 }

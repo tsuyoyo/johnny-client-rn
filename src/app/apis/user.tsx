@@ -3,7 +3,8 @@ import {
   SignupUserResponse,
   PostUserLoginRequest,
   PostUserLoginResponse,
-  GetUserProfileResponse
+  GetUserProfileResponse,
+  PutUserCityRequest
 } from "../proto/userService_pb";
 import * as httpClient from './httpClient';
 
@@ -31,8 +32,19 @@ export function getUserProfile(
   userId: string
 ): Promise<GetUserProfileResponse> {
   return httpClient
-  .get(`/user/profile/${userId}`)
+  .get(`/user/${userId}/profile`)
   .then((binary: Uint8Array) => new Promise((resolve) =>
     resolve(GetUserProfileResponse.deserializeBinary(binary))
+  ));
+}
+
+export function putUserProfileArea(
+  userId: string,
+  request: PutUserCityRequest
+): Promise<number> {
+  return httpClient
+  .put(`/user/${userId}/profile/city`, request)
+  .then((binary: Uint8Array) => new Promise((resolve) =>
+    resolve(0)
   ));
 }

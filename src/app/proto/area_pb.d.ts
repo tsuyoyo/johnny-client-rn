@@ -3,43 +3,12 @@
 
 import * as jspb from "google-protobuf";
 
-export class Area extends jspb.Message {
-  getId(): number;
-  setId(value: number): void;
-
-  getName(): string;
-  setName(value: string): void;
-
-  getPrefecture(): PrefectureMap[keyof PrefectureMap];
-  setPrefecture(value: PrefectureMap[keyof PrefectureMap]): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Area.AsObject;
-  static toObject(includeInstance: boolean, msg: Area): Area.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: Area, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Area;
-  static deserializeBinaryFromReader(message: Area, reader: jspb.BinaryReader): Area;
-}
-
-export namespace Area {
-  export type AsObject = {
-    id: number,
-    name: string,
-    prefecture: PrefectureMap[keyof PrefectureMap],
-  }
-}
-
 export class City extends jspb.Message {
   getId(): string;
   setId(value: string): void;
 
   getName(): string;
   setName(value: string): void;
-
-  getZipcode(): string;
-  setZipcode(value: string): void;
 
   getPrefecture(): PrefectureMap[keyof PrefectureMap];
   setPrefecture(value: PrefectureMap[keyof PrefectureMap]): void;
@@ -58,7 +27,6 @@ export namespace City {
   export type AsObject = {
     id: string,
     name: string,
-    zipcode: string,
     prefecture: PrefectureMap[keyof PrefectureMap],
   }
 }

@@ -11,12 +11,13 @@ import { ActionBase } from '../actions/actionBase';
 
 function mapStateToProps(appState: JohnnyAppState): AreaSelectionStateProps {
   return {
-  }
+    user: appState.login.user,
+  };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<ActionBase>): AreaSelectionDispatchProps {
   return {
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaSelectionScreenComponent);

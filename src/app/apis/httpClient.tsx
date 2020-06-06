@@ -55,3 +55,14 @@ export function post(
       .then(response => new Uint8Array(decode(response.data)))
   );
 }
+
+export function put(
+  path: string,
+  request: Message
+): Promise<Uint8Array> {
+  return createAxios().then(axiosInstance =>
+    axiosInstance
+      .put(path, request.serializeBinary())
+      .then(response => new Uint8Array(decode(response.data)))
+  );
+}

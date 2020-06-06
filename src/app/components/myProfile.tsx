@@ -37,13 +37,13 @@ export const MyProfileComponent = (props: MyProfileProps) => {
   useEffect(() => {
     getUserProfile("id_a")//props.user.getId())
       .then(response => {
-        console.log(`User's active area - ${response.getUserprofile().getActivityareasList().length}`)
+        console.log(`User's active area - ${response.getUserprofile().getActivecitiesList().length}`)
 
-        const areas = response.getUserprofile().getActivityareasList();
+        const areas = response.getUserprofile().getActivecitiesList();
         for (let i=0; i<areas.length; i++) {
           console.log(`${i} - ${areas[i].getName()}`)
         }
-        setAreas(response.getUserprofile().getActivityareasList())
+        setAreas(response.getUserprofile().getActivecitiesList())
 
         props.updateUserProfile(response.getUserprofile())
       });

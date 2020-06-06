@@ -145,25 +145,47 @@ export namespace PutUserProfileRequest {
   }
 }
 
-export class PutUserProfileActiveAreasRequest extends jspb.Message {
-  clearActivityareasList(): void;
-  getActivityareasList(): Array<proto_area_pb.Area>;
-  setActivityareasList(value: Array<proto_area_pb.Area>): void;
-  addActivityareas(value?: proto_area_pb.Area, index?: number): proto_area_pb.Area;
+export class PutUserCityRequest extends jspb.Message {
+  clearCitiesList(): void;
+  getCitiesList(): Array<proto_area_pb.City>;
+  setCitiesList(value: Array<proto_area_pb.City>): void;
+  addCities(value?: proto_area_pb.City, index?: number): proto_area_pb.City;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PutUserProfileActiveAreasRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: PutUserProfileActiveAreasRequest): PutUserProfileActiveAreasRequest.AsObject;
+  toObject(includeInstance?: boolean): PutUserCityRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: PutUserCityRequest): PutUserCityRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: PutUserProfileActiveAreasRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PutUserProfileActiveAreasRequest;
-  static deserializeBinaryFromReader(message: PutUserProfileActiveAreasRequest, reader: jspb.BinaryReader): PutUserProfileActiveAreasRequest;
+  static serializeBinaryToWriter(message: PutUserCityRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PutUserCityRequest;
+  static deserializeBinaryFromReader(message: PutUserCityRequest, reader: jspb.BinaryReader): PutUserCityRequest;
 }
 
-export namespace PutUserProfileActiveAreasRequest {
+export namespace PutUserCityRequest {
   export type AsObject = {
-    activityareasList: Array<proto_area_pb.Area.AsObject>,
+    citiesList: Array<proto_area_pb.City.AsObject>,
+  }
+}
+
+export class GetUserCityResponse extends jspb.Message {
+  clearCitiesList(): void;
+  getCitiesList(): Array<proto_area_pb.City>;
+  setCitiesList(value: Array<proto_area_pb.City>): void;
+  addCities(value?: proto_area_pb.City, index?: number): proto_area_pb.City;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetUserCityResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetUserCityResponse): GetUserCityResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetUserCityResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetUserCityResponse;
+  static deserializeBinaryFromReader(message: GetUserCityResponse, reader: jspb.BinaryReader): GetUserCityResponse;
+}
+
+export namespace GetUserCityResponse {
+  export type AsObject = {
+    citiesList: Array<proto_area_pb.City.AsObject>,
   }
 }
 

@@ -33,10 +33,10 @@ export namespace User {
 }
 
 export class UserProfile extends jspb.Message {
-  clearActivityareasList(): void;
-  getActivityareasList(): Array<proto_area_pb.Area>;
-  setActivityareasList(value: Array<proto_area_pb.Area>): void;
-  addActivityareas(value?: proto_area_pb.Area, index?: number): proto_area_pb.Area;
+  clearActivecitiesList(): void;
+  getActivecitiesList(): Array<proto_area_pb.City>;
+  setActivecitiesList(value: Array<proto_area_pb.City>): void;
+  addActivecities(value?: proto_area_pb.City, index?: number): proto_area_pb.City;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): UserProfile.AsObject;
@@ -50,7 +50,7 @@ export class UserProfile extends jspb.Message {
 
 export namespace UserProfile {
   export type AsObject = {
-    activityareasList: Array<proto_area_pb.Area.AsObject>,
+    activecitiesList: Array<proto_area_pb.City.AsObject>,
   }
 }
 

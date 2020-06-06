@@ -287,8 +287,8 @@ proto.pj.sakuchin.percussion.proto.UserProfile.prototype.toObject = function(opt
  */
 proto.pj.sakuchin.percussion.proto.UserProfile.toObject = function(includeInstance, msg) {
   var f, obj = {
-    activityareasList: jspb.Message.toObjectList(msg.getActivityareasList(),
-    proto_area_pb.Area.toObject, includeInstance)
+    activecitiesList: jspb.Message.toObjectList(msg.getActivecitiesList(),
+    proto_area_pb.City.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -326,9 +326,9 @@ proto.pj.sakuchin.percussion.proto.UserProfile.deserializeBinaryFromReader = fun
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto_area_pb.Area;
-      reader.readMessage(value,proto_area_pb.Area.deserializeBinaryFromReader);
-      msg.addActivityareas(value);
+      var value = new proto_area_pb.City;
+      reader.readMessage(value,proto_area_pb.City.deserializeBinaryFromReader);
+      msg.addActivecities(value);
       break;
     default:
       reader.skipField();
@@ -359,43 +359,43 @@ proto.pj.sakuchin.percussion.proto.UserProfile.prototype.serializeBinary = funct
  */
 proto.pj.sakuchin.percussion.proto.UserProfile.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getActivityareasList();
+  f = message.getActivecitiesList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto_area_pb.Area.serializeBinaryToWriter
+      proto_area_pb.City.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated Area activityAreas = 1;
- * @return {!Array<!proto.pj.sakuchin.percussion.proto.Area>}
+ * repeated City activeCities = 1;
+ * @return {!Array<!proto.pj.sakuchin.percussion.proto.City>}
  */
-proto.pj.sakuchin.percussion.proto.UserProfile.prototype.getActivityareasList = function() {
-  return /** @type{!Array<!proto.pj.sakuchin.percussion.proto.Area>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto_area_pb.Area, 1));
+proto.pj.sakuchin.percussion.proto.UserProfile.prototype.getActivecitiesList = function() {
+  return /** @type{!Array<!proto.pj.sakuchin.percussion.proto.City>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto_area_pb.City, 1));
 };
 
 
 /**
- * @param {!Array<!proto.pj.sakuchin.percussion.proto.Area>} value
+ * @param {!Array<!proto.pj.sakuchin.percussion.proto.City>} value
  * @return {!proto.pj.sakuchin.percussion.proto.UserProfile} returns this
 */
-proto.pj.sakuchin.percussion.proto.UserProfile.prototype.setActivityareasList = function(value) {
+proto.pj.sakuchin.percussion.proto.UserProfile.prototype.setActivecitiesList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.pj.sakuchin.percussion.proto.Area=} opt_value
+ * @param {!proto.pj.sakuchin.percussion.proto.City=} opt_value
  * @param {number=} opt_index
- * @return {!proto.pj.sakuchin.percussion.proto.Area}
+ * @return {!proto.pj.sakuchin.percussion.proto.City}
  */
-proto.pj.sakuchin.percussion.proto.UserProfile.prototype.addActivityareas = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.pj.sakuchin.percussion.proto.Area, opt_index);
+proto.pj.sakuchin.percussion.proto.UserProfile.prototype.addActivecities = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.pj.sakuchin.percussion.proto.City, opt_index);
 };
 
 
@@ -403,8 +403,8 @@ proto.pj.sakuchin.percussion.proto.UserProfile.prototype.addActivityareas = func
  * Clears the list making it empty but non-null.
  * @return {!proto.pj.sakuchin.percussion.proto.UserProfile} returns this
  */
-proto.pj.sakuchin.percussion.proto.UserProfile.prototype.clearActivityareasList = function() {
-  return this.setActivityareasList([]);
+proto.pj.sakuchin.percussion.proto.UserProfile.prototype.clearActivecitiesList = function() {
+  return this.setActivecitiesList([]);
 };
 
 
