@@ -12,62 +12,68 @@ export interface ActiveAreaProps {
 
 export const ProfileActiveAreasList = (props: ActiveAreaProps) => {
 
-  const renderArea = (city: City) => (
-    <SelectedCitiesListItem
-      city={city}
-      onClick={() => console.log(`On area tapped - ${city.getName()}`)} />
-  );
-
   const styles = StyleSheet.create({
     container: {
       // flex:1,
-      flexDirection: 'row',
-      // flexWrap:'wrap',
+      // flexDirection: 'row',
+      flexWrap:'wrap',
       // alignSelf: 'stretch',
       // backgroundColor: '#0F0',
-      // alignItems: 'flex-start',
-      // justifyContent: 'space-around',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+    },
+    titleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 8,
     },
     areaList: {
-      // alignSelf: 'stretch',
-      // alignItems: 'stretch',
-      // flex:1,
-      // width:200,
-      // backgroundColor: '#00F',
+      flex:1,
+      flexDirection: 'row',
+      flexWrap:'wrap',
+    },
+    areaItem: {
+      margin: 8,
     },
     editButton: {
-      marginStart: 12,
-      // flex:1,
-      // width:100,
-    }
+
+    },
+    areaTitle: {
+      flex: 1,
+      fontWeight: 'bold',
+    },
   })
 
-  // {
-  //   props.areas.forEach((c: City) => {
-  //     (
-  //       <SelectedCitiesListItem
-  //         city={c}
-  //         onClick={null}
-  //         />
-  //     )
-  //   })
-  // }
+  const renderAreaItem = ((c: City) => (
+    <SelectedCitiesListItem
+    city={c}
+    onClick={null}
+    />
+  ));
+
+  const renderAreaList = () => (
+    <View style={styles.areaList}>
+      { props.areas.map((c: City) => renderAreaItem(c)) }
+    </View>
+  );
+
+  const renderHeader = () => (
+    <View style={styles.titleContainer}>
+      <Text style={styles.areaTitle}>活動エリア</Text>
+      <Button
+        transparent
+        small
+        style={styles.editButton}
+        onPress={props.onEditClicked}>
+        <Text>変更する</Text>
+      </Button>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      <FlatList
-          style={styles.areaList}
-          data={props.areas}
-          horizontal
-          renderItem={({item}) => renderArea(item)}
-          keyExtractor={(_, index) => index.toString()}
-        />
-      <Button
-        style={styles.editButton}
-        onPress={props.onEditClicked}
-      >
-         <Text>Edit area</Text>
-      </Button>
+      {renderHeader()}
+      {renderAreaList()}
     </View>
   );
 }

@@ -13,7 +13,7 @@ export const SelectedCitiesHorizontalList = (props: SelectedCitiesHorizontalList
   return (
     // Memo : Intentionally react-native's View is used here
     // (If I use native-base's View, "VirtualizedList: You have a large list that is slow to update" is warned)
-    <View style={{backgroundColor: '#F5F5F5', paddingBottom:8, paddingTop:8}}>
+    <View style={{backgroundColor: '#FFF', paddingBottom:8, paddingTop:8}}>
       <FlatList
         data={props.cities}
         keyExtractor={(_city, index) => props.cities[index].getId()}
