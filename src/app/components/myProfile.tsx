@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import { User, UserProfile } from '../proto/user_pb';
 import { getUserProfile } from '../apis/user';
-import { ActiveArea } from './activeAreas';
+import { ProfileActiveAreasList } from './profile/ProfileActiveAreasList';
+import { Button } from 'native-base';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -32,22 +33,18 @@ export interface MyProfileProps extends MyProfileStateProps, MyProfileDispatchPr
 }
 
 export const MyProfileComponent = (props: MyProfileProps) => {
-  const [areas, setAreas] = useState([]);
 
   useEffect(() => {
-    getUserProfile("id_a")//props.user.getId())
+    getUserProfile(props.user.getId())
       .then(response => {
-        console.log(`User's active area - ${response.getUserprofile().getActivecitiesList().length}`)
-
-        const areas = response.getUserprofile().getActivecitiesList();
-        for (let i=0; i<areas.length; i++) {
-          console.log(`${i} - ${areas[i].getName()}`)
-        }
-        setAreas(response.getUserprofile().getActivecitiesList())
-
+        console.log(`Feched user profile - ${response.getUser().getName()}`)
         props.updateUserProfile(response.getUserprofile())
       });
   }, []);
+
+  const launchActiveAreaEdit = () => {
+    props.navigation.navigate('AreaSelection');
+  };
 
   return (
       <View style={styles.container}>
@@ -56,8 +53,9 @@ export const MyProfileComponent = (props: MyProfileProps) => {
           source={{uri: props.user.getPhoto()}}
           style={{ width: 66, height: 58, backgroundColor: 'lightblue' }}/>
         <Text>{props.user.getName()}</Text>
-        <ActiveArea
-          areas={areas}
+        <ProfileActiveAreasList
+          areas={props.userProfile.getActivecitiesList()}
+          onEditClicked={launchActiveAreaEdit}
         />
       </View>
   );
