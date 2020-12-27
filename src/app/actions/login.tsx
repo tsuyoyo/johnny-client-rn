@@ -13,7 +13,6 @@ function persistLoginInfo(user: User, accessToken: string) {
   AsyncStorage.setItem(AsyncStorageKey.USER_ID, user.getId());
   AsyncStorage.setItem(AsyncStorageKey.USER_NAME, user.getName());
   AsyncStorage.setItem(AsyncStorageKey.USER_PHOTO, user.getPhoto());
-  AsyncStorage.setItem(AsyncStorageKey.TOKEN, accessToken);
 }
 
 export function updateLoginInfo(user: User, accessToken: string): UpdateLoginInfo {
