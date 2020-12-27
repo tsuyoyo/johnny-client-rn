@@ -28,19 +28,19 @@ export interface HomeStateProps {
 export interface HomeDispatchProps {
   incrementCount(count: number): void;
   resetCount(): void;
-  initLoginState(user: User, accessToken: string): void;
+  initLoginState(user: User): void;
 }
 
 export interface HomeProps extends HomeStateProps, HomeDispatchProps {}
 
 export class HomeComponent extends React.Component<HomeProps> {
 
-  private initLoginState({id, name, photo, token}): void {
+  private initLoginState({id, name, photo}): void {
     const user = new User();
     user.setId(id)
     user.setName(name)
     user.setPhoto(photo)
-    this.props.initLoginState(user, token);
+    this.props.initLoginState(user);
   };
 
   private loadLoginState() {
@@ -48,10 +48,10 @@ export class HomeComponent extends React.Component<HomeProps> {
       AsyncStorage.getItem(AsyncStorageKey.USER_ID),
       AsyncStorage.getItem(AsyncStorageKey.USER_NAME),
       AsyncStorage.getItem(AsyncStorageKey.USER_PHOTO),
-      AsyncStorage.getItem(AsyncStorageKey.TOKEN),
     ]).then(results => {
+      console.log(`Login state is loaded - ${results[1]}`)
       this.initLoginState(
-        {id: results[0], name: results[1], photo: results[2], token: results[3]}
+        {id: results[0], name: results[1], photo: results[2]}
       );
     });
   }

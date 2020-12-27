@@ -5,11 +5,12 @@ import { PercussionApiError } from "../proto/error_pb";
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
 import AsyncStorage from '@react-native-community/async-storage';
 import { decode } from "base64-arraybuffer";
+import { firebase } from "@react-native-firebase/auth";
 
 function createAxios(): Promise<AxiosInstance> {
   return Promise.all([
     AsyncStorage.getItem(AsyncStorageKey.USER_ID),
-    AsyncStorage.getItem(AsyncStorageKey.TOKEN)
+    firebase.auth().currentUser.getIdToken(true),
   ]).then(([userId, token]) => axios.create(
     {
       baseURL: API_BASE_URL,
