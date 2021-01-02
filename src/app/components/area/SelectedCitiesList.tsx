@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native'
-import { City } from '../../proto/area_pb';
 import { FlatList } from 'react-native-gesture-handler';
 import { SelectedCitiesListItem } from './SelectedCitiesListItem';
+import * as proto from "../../proto/johnnyproto";
 
 export interface SelectedCitiesHorizontalListProps {
-  cities: City[];
-  onCityClicked?: (city: City) => void;
+  cities: proto.ICity[];
+  onCityClicked?: (city: proto.ICity) => void;
 }
 
 export const SelectedCitiesHorizontalList = (props: SelectedCitiesHorizontalListProps) => {
@@ -16,7 +16,7 @@ export const SelectedCitiesHorizontalList = (props: SelectedCitiesHorizontalList
     <View style={{backgroundColor: '#FFF', paddingBottom:8, paddingTop:8}}>
       <FlatList
         data={props.cities}
-        keyExtractor={(_city, index) => props.cities[index].getId()}
+        keyExtractor={(_city, index) => props.cities[index].id}
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => (

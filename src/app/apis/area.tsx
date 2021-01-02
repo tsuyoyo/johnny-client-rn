@@ -1,14 +1,12 @@
-import {
-  GetAreaCityResponse,
-} from "../proto/areaService_pb";
+import * as proto from "../proto/johnnyproto";
 import * as httpClient from './httpClient';
 
 export function getAreaPrefectureCities(
   prefectureId: number
-): Promise<GetAreaCityResponse> {
+): Promise<proto.GetAreaCityResponse> {
   return httpClient
     .get(`/area/prefecture/${prefectureId}/cities`)
     .then((binary: Uint8Array) => new Promise((resolve) =>
-      resolve(GetAreaCityResponse.deserializeBinary(binary))
+      resolve(proto.GetAreaCityResponse.decode(binary))
     ));
 }

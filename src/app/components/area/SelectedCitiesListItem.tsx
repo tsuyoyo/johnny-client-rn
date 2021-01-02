@@ -1,11 +1,11 @@
 import React from 'react'
 import { Text, Button} from 'native-base'
 import { StyleSheet } from 'react-native'
-import { City } from '../../proto/area_pb'
+import * as proto from "../../proto/johnnyproto";
 
 export interface SelectedCitiesListItemProps {
-  city: City;
-  onClick?: (city: City) => void;
+  city: proto.ICity;
+  onClick?: (city: proto.ICity) => void;
 }
 
 const styles = StyleSheet.create({
@@ -32,7 +32,7 @@ export const SelectedCitiesListItem = (props: SelectedCitiesListItemProps) => {
           props.onClick(props.city);
         }
       }}>
-      <Text style={styles.textView}>{props.city.getName()}</Text>
+      <Text style={styles.textView}>{props.city.name}</Text>
     </Button>
   );
 }

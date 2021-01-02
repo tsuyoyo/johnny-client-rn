@@ -2,22 +2,19 @@ import React, { useState } from 'react';
 import * as SuggestionApi from '../../apis/suggestion';
 import * as UserApi from '../../apis/user';
 import { StyleSheet, View, } from 'react-native';
-import { GetSuggestCityResponse } from '../../proto/suggestService_pb';
 import { Input, InputGroup, Button, Text } from 'native-base';
-import { City } from '../../proto/area_pb';
 import { CityList } from './CityList';
 import { SelectedCitiesHorizontalList } from './SelectedCitiesList';
 import { StackActions } from 'react-navigation';
-import { PutUserCityRequest, GetUserProfileResponse } from '../../proto/userService_pb';
-import { User, UserProfile } from '../../proto/user_pb';
+import * as proto from "../../proto/johnnyproto";
 
 export interface AreaSelectionStateProps {
-  user: User,
-  userProfile: UserProfile,
+  user: proto.IUser,
+  userProfile: proto.IUserProfile,
 }
 
 export interface AreaSelectionDispatchProps {
-  updateUserProfile(userProfile: UserProfile): void
+  updateUserProfile(userProfile: proto.IUserProfile): void
 }
 
 export interface AreaSelectionProps extends AreaSelectionStateProps, AreaSelectionDispatchProps {
@@ -50,7 +47,7 @@ export const AreaSelectionScreenComponent = (props: AreaSelectionProps) => {
   const [cities, setSuggestedCities] = useState([]);
 
   const [selectedCities, updateSelectedCities] =
-    useState(props.userProfile.getActivecitiesList());
+    useState(props.userProfile.activeCities);
 
   const fetchSuggestedCities = async (zipCode: string) => {
     if (zipCode.length == 0) {
@@ -58,33 +55,34 @@ export const AreaSelectionScreenComponent = (props: AreaSelectionProps) => {
     } else {
       SuggestionApi
         .getSuggestedCities(zipCode)
-        .then((response: GetSuggestCityResponse) => {
-          setSuggestedCities(response.getCitiesList());
+        .then((response: proto.GetSuggestCityResponse) => {
+          setSuggestedCities(response.cities);
         })
         .catch((e) => console.log(`Suggestion error - ${e.message}`));
     }
   }
 
-  const addCityToSelection = (city: City) => {
+  const addCityToSelection = (city: proto.ICity) => {
     if (!selectedCities.includes(city)) {
       updateSelectedCities([...selectedCities, city]);
     }
   };
 
-  const removeCityFromSelection = (city: City) => {
+  const removeCityFromSelection = (city: proto.ICity) => {
     updateSelectedCities(selectedCities.filter((c) => c !== city));
   };
 
   const putUserProfileArea = (): Promise<number> => {
-    const request = new PutUserCityRequest();
-    request.setCitiesList(selectedCities);
-    return UserApi.putUserProfileArea(props.user.getId(), request);
+    const request = new proto.PutUserCityRequest({
+      cities: selectedCities,
+    });
+    return UserApi.putUserProfileArea(props.user.id, request);
   }
 
   const fetchUserProfile = (): Promise<void> => {
     return UserApi
-      .getUserProfile(props.user.getId())
-      .then((res: GetUserProfileResponse) => props.updateUserProfile(res.getUserprofile()));
+      .getUserProfile(props.user.id)
+      .then((res: proto.GetUserProfileResponse) => props.updateUserProfile(res.userProfile));
   }
 
   const onSaveButtonClicked = (): void => {

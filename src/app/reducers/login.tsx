@@ -1,11 +1,11 @@
 import {LoginStateProps, LoginDispatchProps, LoginComponent} from '../components/login';
-import { User, UserProfile } from '../proto/user_pb';
 import { UpdateLoginInfo } from '../actions/login';
 import { ActionBase } from '../actions/actionBase';
 import { ActionType } from '../actions/actionTypes';
+import * as proto from "../proto/johnnyproto";
 
 const initialState: LoginStateProps = {
-  user: new User(),
+  user: new proto.User(),
   accessToken: "------",
 }
 

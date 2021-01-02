@@ -4,8 +4,8 @@ import {incrementCount, resetCount} from '../actions/home';
 import {updateLoginInfo} from '../actions/login';
 import {HomeComponent, HomeDispatchProps, HomeStateProps} from '../components/home';
 import {JohnnyAppState} from '../states/app';
-import { User } from '../proto/user_pb';
 import { ActionBase } from '../actions/actionBase';
+import * as proto from "../proto/johnnyproto";
 
 function mapStateToProps(
   state: JohnnyAppState
@@ -25,8 +25,8 @@ function mapDispatchToProps(dispatch: Dispatch<ActionBase>): HomeDispatchProps {
     resetCount() {
       dispatch(resetCount());
     },
-    initLoginState(user: User, token: string) {
-      dispatch(updateLoginInfo(user, token));
+    initLoginState(user: proto.IUser) {
+      dispatch(updateLoginInfo(user));
     }
   };
 }

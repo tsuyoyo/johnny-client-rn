@@ -1,4 +1,4 @@
-import {Action} from 'redux';
+import { Action } from 'redux';
 import { ActionType } from './actionTypes';
 import { ActionBase } from './actionBase';
 

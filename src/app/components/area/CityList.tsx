@@ -1,12 +1,12 @@
 import React from 'react';
-import { City } from "../../proto/area_pb";
 import { CityListItem } from './CityListItem';
 import { FlatList } from 'react-native-gesture-handler';
 import { ListItem, Text } from 'native-base';
+import * as proto from "../../proto/johnnyproto";
 
 export interface CityListProps {
-  cities: City[];
-  onItemClicked(city: City): void;
+  cities: proto.ICity[];
+  onItemClicked(city: proto.ICity): void;
 }
 
 export const CityList = (props: CityListProps) => {
@@ -21,7 +21,7 @@ export const CityList = (props: CityListProps) => {
   return(
     <FlatList
       data={props.cities}
-      keyExtractor={(_city, index) => props.cities[index].getId()}
+      keyExtractor={(_city, index) => props.cities[index].id}
       renderItem={({item}) => renderCityListItem(item)}
     />
   );

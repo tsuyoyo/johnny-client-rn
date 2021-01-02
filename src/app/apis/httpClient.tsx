@@ -1,11 +1,11 @@
 import { Message } from "google-protobuf";
 import axios, { AxiosInstance } from 'axios';
 import { API_BASE_URL, COMMON_REQUEST_HEADERS } from '../configs/common';
-import { PercussionApiError } from "../proto/error_pb";
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
 import AsyncStorage from '@react-native-community/async-storage';
 import { decode } from "base64-arraybuffer";
 import { firebase } from "@react-native-firebase/auth";
+import * as proto from "../proto/johnnyproto";
 
 function createAxios(): Promise<AxiosInstance> {
   return Promise.all([
@@ -26,7 +26,7 @@ function createAxios(): Promise<AxiosInstance> {
     axiosInstance.interceptors.response.use(
       (response) => response,
       (error) => {
-        throw PercussionApiError.deserializeBinary(
+        throw proto.PercussionApiError.decode(
           new Uint8Array(decode(error.response.data))
         )
       }

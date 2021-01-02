@@ -1,6 +1,7 @@
-import {User} from "../proto/user_pb"
+import { pj } from "johnny-proto";
+import proto = pj.sakuchin.percussion.proto;
 
 export interface LoginState {
   accessToken: string;
-  user: User;
+  user: proto.User;
 }

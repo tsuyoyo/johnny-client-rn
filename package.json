@@ -21,6 +21,7 @@
     "expo": "~36.0.0",
     "expo-font": "^8.1.1",
     "google-protobuf": "^3.11.4",
+    "johnny-proto": "github:tsuyoyo/johnny-protobuf#d94c5278a140376bcd327a38a5c77555dd9d7e25",
     "native-base": "^2.13.12",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",

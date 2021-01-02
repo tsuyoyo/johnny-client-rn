@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from 'react-native';
-import { User } from '../proto/user_pb';
-import { SignupUserRequest, SignupUserResponse } from '../proto/userService_pb';
 import * as twitterWrapper from '../apis/twitter';
 import * as UserApi from '../apis/user';
-import { PercussionApiError } from '../proto/error_pb';
+import * as proto from "../proto/johnnyproto";
 
 export interface TwitterSignupButtonProps {
   onProcessing(isProcessing: boolean): void;
-  onTwitterSignupSuccess(user: User, token: string): void;
-  onTwitterSignupError(error: PercussionApiError): void;
+  onTwitterSignupSuccess(user: proto.IUser, token: string): void;
+  onTwitterSignupError(error: proto.PercussionApiError): void;
 }
 
 export const TwitterSignupButton = (props: TwitterSignupButtonProps) => {
@@ -17,15 +15,15 @@ export const TwitterSignupButton = (props: TwitterSignupButtonProps) => {
   const [isEnabled, setIsEnabled] = useState(true);
 
   const getSignupUserRequest = (token: string) => {
-    const request = new SignupUserRequest();
-    request.setToken(token);
-    return request;
+    return new proto.SignupUserRequest({
+      token
+    });
   }
 
   const signup = (token: string) => UserApi
     .postUserSignup(getSignupUserRequest(token))
-    .then((response: SignupUserResponse) => {
-      props.onTwitterSignupSuccess(response.getUser(), token);
+    .then((response: proto.SignupUserResponse) => {
+      props.onTwitterSignupSuccess(response.user, token);
     });
 
   const onLoginProcessing = (isProcessing: boolean) => {
@@ -34,8 +32,8 @@ export const TwitterSignupButton = (props: TwitterSignupButtonProps) => {
   }
 
   const handleSignupError = (error) => {
-    if (error instanceof PercussionApiError) {
-      props.onTwitterSignupError(error as PercussionApiError);
+    if (error instanceof proto.PercussionApiError) {
+      props.onTwitterSignupError(error as proto.PercussionApiError);
     }
   }
 

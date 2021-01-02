@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import {StyleSheet, Text, View, Alert, ActivityIndicator} from 'react-native';
-import { User } from '../proto/user_pb';
-import { PercussionApiError } from '../proto/error_pb';
 import Toast from 'react-native-simple-toast';
 import { TwitterLoginButton } from './twitterLoginButton';
 import { TwitterSignupButton } from './twitterSignupButton';
+import * as proto from "../proto/johnnyproto";
 
 const styles = StyleSheet.create({
   container: {
@@ -23,11 +22,11 @@ const styles = StyleSheet.create({
 
 export interface LoginStateProps {
   accessToken: string,
-  user: User
+  user: proto.IUser
 }
 
 export interface LoginDispatchProps {
-  updateLoginInfo(user: User, accessToken: string): void
+  updateLoginInfo(user: proto.IUser, accessToken: string): void
 }
 
 export interface LoginProps extends LoginStateProps, LoginDispatchProps {
@@ -54,22 +53,22 @@ export const LoginComponent = (props: LoginProps) => {
     }
   }
 
-  const onTwitterSignUpSuccess = (user: User, token: string) => {
-    Toast.show(`${user.getName()}さん、ようこそ`);
+  const onTwitterSignUpSuccess = (user: proto.IUser, token: string) => {
+    Toast.show(`${user.name}さん、ようこそ`);
     props.updateLoginInfo(user, token);
   }
 
-  const onTwitterSignUpError = (error: PercussionApiError) => {
-    showAlert('登録エラー', error.getMessage());
+  const onTwitterSignUpError = (error: proto.PercussionApiError) => {
+    showAlert('登録エラー', error.message);
   }
 
-  const onTwitterLoginSuccess = (user: User, token: string) => {
-    Toast.show(`${user.getName()}さん、ログインしました`);
+  const onTwitterLoginSuccess = (user: proto.IUser, token: string) => {
+    Toast.show(`${user.name}さん、ログインしました`);
     props.updateLoginInfo(user, token);
   }
 
-  const onTwitterLoginError = (error: PercussionApiError) => {
-    showAlert('ログインエラー', error.getMessage());
+  const onTwitterLoginError = (error: proto.PercussionApiError) => {
+    showAlert('ログインエラー', error.message);
   }
 
   return(
@@ -84,7 +83,7 @@ export const LoginComponent = (props: LoginProps) => {
         onTwitterLoginSuccess={onTwitterLoginSuccess}
         onTwitterLoginError={onTwitterLoginError}
       />
-      <Text>{props.user.getName()}</Text>
+      <Text>{props.user.name}</Text>
       {renderLoading(isProcessing)}
     </View>
   );
