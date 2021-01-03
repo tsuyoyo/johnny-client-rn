@@ -5,7 +5,7 @@ import {updateLoginInfo} from '../actions/login';
 import {HomeComponent, HomeDispatchProps, HomeStateProps} from '../components/home';
 import {JohnnyAppState} from '../states/app';
 import { ActionBase } from '../actions/actionBase';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 function mapStateToProps(
   state: JohnnyAppState

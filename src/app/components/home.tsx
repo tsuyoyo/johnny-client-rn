@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 const styles = StyleSheet.create({
   container: {

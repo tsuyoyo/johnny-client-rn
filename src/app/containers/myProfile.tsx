@@ -4,7 +4,7 @@ import {JohnnyAppState} from '../states/app';
 import { MyProfileStateProps, MyProfileDispatchProps, MyProfileComponent } from '../components/myProfile';
 import { ActionBase } from '../actions/actionBase';
 import { updateUserProfile } from '../actions/profile';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 function mapStateToProps(appState: JohnnyAppState): MyProfileStateProps {
   return {

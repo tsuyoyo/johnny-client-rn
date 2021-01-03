@@ -1,4 +1,4 @@
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 import * as httpClient from './httpClient';
 
 export function getSuggestedCities(

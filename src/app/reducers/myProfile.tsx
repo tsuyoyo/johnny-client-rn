@@ -3,7 +3,7 @@ import { ActionBase } from "../actions/actionBase";
 import { ActionType } from "../actions/actionTypes";
 import { UpdateUserProfile } from "../actions/profile";
 import { MyProfileState } from "../states/myProfile";
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 const initialState: MyProfileState = {
   userProfile: new proto.UserProfile(),

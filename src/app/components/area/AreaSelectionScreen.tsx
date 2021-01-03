@@ -6,7 +6,7 @@ import { Input, InputGroup, Button, Text } from 'native-base';
 import { CityList } from './CityList';
 import { SelectedCitiesHorizontalList } from './SelectedCitiesList';
 import { StackActions } from 'react-navigation';
-import * as proto from "../../proto/johnnyproto";
+import { default as proto } from "../../proto/johnnyproto";
 
 export interface AreaSelectionStateProps {
   user: proto.IUser,

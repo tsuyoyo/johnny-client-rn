@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, Button} from 'native-base'
 import { StyleSheet } from 'react-native'
-import * as proto from "../../proto/johnnyproto";
+import { default as proto } from "../../proto/johnnyproto";
 
 export interface SelectedCitiesListItemProps {
   city: proto.ICity;

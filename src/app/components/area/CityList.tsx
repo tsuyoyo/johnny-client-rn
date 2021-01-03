@@ -2,7 +2,7 @@ import React from 'react';
 import { CityListItem } from './CityListItem';
 import { FlatList } from 'react-native-gesture-handler';
 import { ListItem, Text } from 'native-base';
-import * as proto from "../../proto/johnnyproto";
+import { default as proto } from "../../proto/johnnyproto";
 
 export interface CityListProps {
   cities: proto.ICity[];

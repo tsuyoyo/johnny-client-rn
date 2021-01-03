@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'react-native';
 import * as twitterWrapper from '../apis/twitter';
 import * as UserApi from '../apis/user';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 export interface TwitterSignupButtonProps {
   onProcessing(isProcessing: boolean): void;

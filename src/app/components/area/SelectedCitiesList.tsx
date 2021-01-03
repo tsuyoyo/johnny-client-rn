@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { SelectedCitiesListItem } from './SelectedCitiesListItem';
-import * as proto from "../../proto/johnnyproto";
+import { default as proto } from "../../proto/johnnyproto";
 
 export interface SelectedCitiesHorizontalListProps {
   cities: proto.ICity[];

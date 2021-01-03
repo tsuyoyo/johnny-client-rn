@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import { getUserProfile } from '../apis/user';
 import { ProfileActiveAreasList } from './profile/ProfileActiveAreasList';
 import { Button } from 'native-base';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 const IMAGE_SIZE = 72;
 

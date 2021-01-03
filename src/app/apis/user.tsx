@@ -1,11 +1,11 @@
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 import * as httpClient from './httpClient';
 
 export function postUserSignup(
   request: proto.SignupUserRequest
 ): Promise<proto.SignupUserResponse> {
   return httpClient
-    .post("/user/signup", request)
+    .post("/user/signup", proto.SignupUserRequest.encode(request).finish())
     .then((binary: Uint8Array) => new Promise((resolve) => {
       resolve(proto.SignupUserResponse.decode(binary));
     }));
@@ -14,8 +14,13 @@ export function postUserSignup(
 export function postUserLogin(
   request: proto.PostUserLoginRequest
 ): Promise<proto.PostUserLoginResponse> {
+  // console.log(`Login request - ${proto.PostUserLoginRequest.encode(request).finish()}`)
+  // var b = proto.PostUserLoginRequest.encode(request).finish();
+  // var s = "";
+  // b.forEach(d => s += `${d},`);
+  // console.log(s);
   return httpClient
-    .post("/user/login", request)
+    .post("/user/login", proto.PostUserLoginRequest.encode(request).finish())
     .then((binary: Uint8Array) => new Promise((resolve) => {
       resolve(proto.PostUserLoginResponse.decode(binary));
     }));
@@ -36,7 +41,7 @@ export function putUserProfileArea(
   request: proto.PutUserCityRequest
 ): Promise<number> {
   return httpClient
-  .put(`/user/${userId}/profile/city`, request)
+  .put(`/user/${userId}/profile/city`, proto.PutUserCityRequest.encode(request).finish())
   .then((binary: Uint8Array) => new Promise((resolve) =>
     resolve(0)
   ));

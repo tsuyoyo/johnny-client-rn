@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListItem, Text } from 'native-base';
-import * as proto from "../../proto/johnnyproto";
+import { default as proto } from "../../proto/johnnyproto";
 
 export interface CityListItemProps {
   city: proto.ICity;

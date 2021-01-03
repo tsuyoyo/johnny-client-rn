@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Alert, ActivityIndicator} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { TwitterLoginButton } from './twitterLoginButton';
 import { TwitterSignupButton } from './twitterSignupButton';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 const styles = StyleSheet.create({
   container: {

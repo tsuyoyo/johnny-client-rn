@@ -2,7 +2,7 @@ import {IncrementCount} from '../actions/home';
 import {HomeStateProps} from '../components/home';
 import { ActionBase } from '../actions/actionBase';
 import { ActionType } from '../actions/actionTypes';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 const initialState: HomeStateProps = {
   count: 0,

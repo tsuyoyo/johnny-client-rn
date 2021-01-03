@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { SelectedCitiesListItem } from '../area/SelectedCitiesListItem';
 import { View, Button, Text, Row } from 'native-base';
-import * as proto from "../../proto/johnnyproto";
+import { default as proto } from "../../proto/johnnyproto";
 
 export interface ActiveAreaProps {
   areas: Array<proto.ICity>

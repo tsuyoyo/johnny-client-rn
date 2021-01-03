@@ -2,7 +2,7 @@ import {ActionType} from '../actions/actionTypes';
 import {ActionBase} from '../actions/actionBase';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 export interface UpdateLoginInfo extends ActionBase {
   user: proto.IUser;

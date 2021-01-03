@@ -1,6 +1,6 @@
 import { ActionBase } from "./actionBase";
 import { ActionType } from "./actionTypes";
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 export interface UpdateUserProfile extends ActionBase {
   userProfile: proto.UserProfile;

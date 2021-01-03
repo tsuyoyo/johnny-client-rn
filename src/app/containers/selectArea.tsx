@@ -9,7 +9,7 @@ import {
 } from '../components/area/AreaSelectionScreen'
 import { ActionBase } from '../actions/actionBase';
 import * as UserProfileAction from '../actions/profile';
-import * as proto from "../proto/johnnyproto";
+import { default as proto } from "../proto/johnnyproto";
 
 function mapStateToProps(appState: JohnnyAppState): AreaSelectionStateProps {
   return {
