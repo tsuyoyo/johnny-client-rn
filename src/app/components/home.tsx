@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 import * as AsyncStorageKey from '../consts/asyncStorageKey';
 import AsyncStorage from '@react-native-community/async-storage';
-import { User } from '../proto/user_pb';
+import { default as proto } from "../proto/johnnyproto";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,14 +21,14 @@ const styles = StyleSheet.create({
 
 export interface HomeStateProps {
   count: number,
-  user: User,
+  user: proto.IUser,
   token: string
 }
 
 export interface HomeDispatchProps {
   incrementCount(count: number): void;
   resetCount(): void;
-  initLoginState(user: User): void;
+  initLoginState(user: proto.IUser): void;
 }
 
 export interface HomeProps extends HomeStateProps, HomeDispatchProps {}
@@ -36,11 +36,13 @@ export interface HomeProps extends HomeStateProps, HomeDispatchProps {}
 export class HomeComponent extends React.Component<HomeProps> {
 
   private initLoginState({id, name, photo}): void {
-    const user = new User();
-    user.setId(id)
-    user.setName(name)
-    user.setPhoto(photo)
-    this.props.initLoginState(user);
+    this.props.initLoginState(
+      new proto.User({
+        id,
+        name,
+        photo,
+      })
+    );
   };
 
   private loadLoginState() {
@@ -74,7 +76,7 @@ export class HomeComponent extends React.Component<HomeProps> {
           color="#841584"
         />
         <Text style={styles.textView}>{this.props.count}</Text>
-        <Text style={styles.textView}>{this.props.user.getName()}</Text>
+        <Text style={styles.textView}>{this.props.user.id}</Text>
       </View>
     );
   }

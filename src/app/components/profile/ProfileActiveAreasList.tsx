@@ -1,12 +1,12 @@
 import React, {  } from 'react';
 import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { City } from '../../proto/area_pb';
 import { SelectedCitiesListItem } from '../area/SelectedCitiesListItem';
 import { View, Button, Text, Row } from 'native-base';
+import { default as proto } from "../../proto/johnnyproto";
 
 export interface ActiveAreaProps {
-  areas: Array<City>
+  areas: Array<proto.ICity>
   onEditClicked: () => void
 }
 
@@ -44,7 +44,7 @@ export const ProfileActiveAreasList = (props: ActiveAreaProps) => {
     },
   })
 
-  const renderAreaItem = ((c: City) => (
+  const renderAreaItem = ((c: proto.ICity) => (
     <SelectedCitiesListItem
     city={c}
     onClick={null}
@@ -53,7 +53,7 @@ export const ProfileActiveAreasList = (props: ActiveAreaProps) => {
 
   const renderAreaList = () => (
     <View style={styles.areaList}>
-      { props.areas.map((c: City) => renderAreaItem(c)) }
+      { props.areas.map((c: proto.ICity) => renderAreaItem(c)) }
     </View>
   );
 

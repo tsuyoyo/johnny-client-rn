@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import {JohnnyAppState} from '../states/app';
 import { MyProfileStateProps, MyProfileDispatchProps, MyProfileComponent } from '../components/myProfile';
 import { ActionBase } from '../actions/actionBase';
-import { UserProfile } from '../proto/user_pb';
 import { updateUserProfile } from '../actions/profile';
+import { default as proto } from "../proto/johnnyproto";
 
 function mapStateToProps(appState: JohnnyAppState): MyProfileStateProps {
   return {
@@ -15,7 +15,7 @@ function mapStateToProps(appState: JohnnyAppState): MyProfileStateProps {
 
 function mapDispatchToProps(dispatch: Dispatch<ActionBase>): MyProfileDispatchProps {
   return {
-    updateUserProfile(userProfile: UserProfile) {
+    updateUserProfile(userProfile: proto.IUserProfile) {
       dispatch(updateUserProfile(userProfile))
     }
   }

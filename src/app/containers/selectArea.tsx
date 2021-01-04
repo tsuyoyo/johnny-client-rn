@@ -8,8 +8,8 @@ import {
   AreaSelectionScreenComponent
 } from '../components/area/AreaSelectionScreen'
 import { ActionBase } from '../actions/actionBase';
-import { UserProfile } from '../proto/user_pb';
 import * as UserProfileAction from '../actions/profile';
+import { default as proto } from "../proto/johnnyproto";
 
 function mapStateToProps(appState: JohnnyAppState): AreaSelectionStateProps {
   return {
@@ -20,7 +20,7 @@ function mapStateToProps(appState: JohnnyAppState): AreaSelectionStateProps {
 
 function mapDispatchToProps(dispatch: Dispatch<ActionBase>): AreaSelectionDispatchProps {
   return {
-    updateUserProfile(userProfile: UserProfile) {
+    updateUserProfile(userProfile: proto.IUserProfile) {
       dispatch(UserProfileAction.updateUserProfile(userProfile));
     }
   };

@@ -1,5 +1,5 @@
-import {UserProfile} from "../proto/user_pb"
+import { default as proto } from "../proto/johnnyproto";
 
 export interface MyProfileState {
-  userProfile: UserProfile;
+  userProfile: proto.UserProfile;
 }

@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from 'react-native';
-import { PostUserLoginRequest, PostUserLoginResponse } from '../proto/userService_pb';
 import * as twitterWrapper from '../apis/twitter';
 import * as UserApi from '../apis/user';
-import { User } from '../proto/user_pb';
-import { PercussionApiError } from '../proto/error_pb';
+import { default as proto } from "../proto/johnnyproto";
 
 export interface TwitterLoginButtonProps {
   onProcessing(isProcessing: boolean): void;
-  onTwitterLoginSuccess(user: User, token: string): void;
-  onTwitterLoginError(error: PercussionApiError): void;
+  onTwitterLoginSuccess(user: proto.IUser, token: string): void;
+  onTwitterLoginError(error: proto.PercussionApiError): void;
 };
 
 export const TwitterLoginButton = (props: TwitterLoginButtonProps) => {
@@ -17,20 +15,20 @@ export const TwitterLoginButton = (props: TwitterLoginButtonProps) => {
   const [isEnabled, setIsEnabled] = useState(true);
 
   const postUserLoginRequest = (token: string) => {
-    const request = new PostUserLoginRequest();
-    request.setToken(token);
-    return request;
+    return new proto.PostUserLoginRequest({
+      token
+    });
   }
 
   const login = (token: string) => UserApi
     .postUserLogin(postUserLoginRequest(token))
-    .then((response: PostUserLoginResponse) =>
-      props.onTwitterLoginSuccess(response.getUser(), token)
+    .then((response: proto.PostUserLoginResponse) =>
+      props.onTwitterLoginSuccess(response.user, token)
     )
 
   const handleLoginError = (error) => {
-    if (error instanceof PercussionApiError) {
-      props.onTwitterLoginError(error as PercussionApiError);
+    if (error instanceof proto.PercussionApiError) {
+      props.onTwitterLoginError(error as proto.PercussionApiError);
     }
   }
 

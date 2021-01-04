@@ -1,12 +1,12 @@
 import { MyProfileStateProps } from "../components/myProfile";
-import { UserProfile } from "../proto/user_pb";
 import { ActionBase } from "../actions/actionBase";
 import { ActionType } from "../actions/actionTypes";
 import { UpdateUserProfile } from "../actions/profile";
 import { MyProfileState } from "../states/myProfile";
+import { default as proto } from "../proto/johnnyproto";
 
 const initialState: MyProfileState = {
-  userProfile: new UserProfile(),
+  userProfile: new proto.UserProfile(),
 }
 
 export function reducer(
@@ -23,7 +23,7 @@ export function reducer(
     case ActionType.CLEAR_USER_PROFILE: {
       return {
         ...state,
-        userProfile: new UserProfile(),
+        userProfile: new proto.UserProfile(),
       }
     }
     default:

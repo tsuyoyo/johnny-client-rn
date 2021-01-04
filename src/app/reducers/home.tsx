@@ -1,12 +1,12 @@
 import {IncrementCount} from '../actions/home';
 import {HomeStateProps} from '../components/home';
-import { User } from '../proto/user_pb';
 import { ActionBase } from '../actions/actionBase';
 import { ActionType } from '../actions/actionTypes';
+import { default as proto } from "../proto/johnnyproto";
 
 const initialState: HomeStateProps = {
   count: 0,
-  user: new User(),
+  user: new proto.User(),
   token: "",
 };
 

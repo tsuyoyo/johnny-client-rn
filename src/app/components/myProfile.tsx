@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import { User, UserProfile } from '../proto/user_pb';
 import { getUserProfile } from '../apis/user';
 import { ProfileActiveAreasList } from './profile/ProfileActiveAreasList';
 import { Button } from 'native-base';
+import { default as proto } from "../proto/johnnyproto";
 
 const IMAGE_SIZE = 72;
 
@@ -44,12 +44,12 @@ const styles = StyleSheet.create({
 });
 
 export interface MyProfileStateProps {
-  user: User,
-  userProfile: UserProfile,
+  user: proto.IUser,
+  userProfile: proto.IUserProfile,
 }
 
 export interface MyProfileDispatchProps {
-  updateUserProfile(userProfile: UserProfile): void
+  updateUserProfile(userProfile: proto.IUserProfile): void
 }
 
 export interface MyProfileProps extends MyProfileStateProps, MyProfileDispatchProps {
@@ -57,10 +57,10 @@ export interface MyProfileProps extends MyProfileStateProps, MyProfileDispatchPr
 
 export const MyProfileComponent = (props: MyProfileProps) => {
   useEffect(() => {
-    getUserProfile(props.user.getId())
+    getUserProfile(props.user.id)
       .then(response => {
-        console.log(`Feched user profile - ${response.getUser().getName()}`)
-        props.updateUserProfile(response.getUserprofile())
+        console.log(`Feched user profile - ${response.user.name}`)
+        props.updateUserProfile(response.userProfile)
       });
   }, []);
 
@@ -82,14 +82,14 @@ export const MyProfileComponent = (props: MyProfileProps) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={{uri: props.user.getPhoto()}}
+          source={{uri: props.user.photo}}
           style={styles.userImage}
         />
-        <Text style={styles.headerUserName}>{props.user.getName()}</Text>
+        <Text style={styles.headerUserName}>{props.user.name}</Text>
       </View>
       {renderBoarder()}
       <ProfileActiveAreasList
-        areas={props.userProfile.getActivecitiesList()}
+        areas={props.userProfile.activeCities}
         onEditClicked={launchActiveAreaEdit}
       />
     </View>

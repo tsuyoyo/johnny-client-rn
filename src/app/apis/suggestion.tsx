@@ -1,14 +1,12 @@
-import {
-  GetSuggestCityResponse,
-} from "../proto/suggestService_pb";
+import { default as proto } from "../proto/johnnyproto";
 import * as httpClient from './httpClient';
 
 export function getSuggestedCities(
   partOfZipCode: string
-): Promise<GetSuggestCityResponse> {
+): Promise<proto.GetSuggestCityResponse> {
   return httpClient
     .get(`/suggestion/city`, { zipCode: partOfZipCode })
     .then((binary: Uint8Array) => new Promise((resolve) => {
-      resolve(GetSuggestCityResponse.deserializeBinary(binary))
+      resolve(proto.GetSuggestCityResponse.decode(binary))
     }));
 }
