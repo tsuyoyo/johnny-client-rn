@@ -49,14 +49,9 @@ export function post(
   path: string,
   request: Uint8Array
 ): Promise<Uint8Array> {
-  console.log(`Login request - ${request.length}`)
-  var s = "";
-  request.forEach(d => s += `${d},`);
-  console.log(s);
-
   return createAxios().then(axiosInstance =>
     axiosInstance
-      .post(path, request)
+      .post(path, new Uint8Array(request))
       .then(response => new Uint8Array(decode(response.data)))
   );
 }
@@ -67,7 +62,7 @@ export function put(
 ): Promise<Uint8Array> {
   return createAxios().then(axiosInstance =>
     axiosInstance
-      .put(path, request)
+      .put(path, new Uint8Array(request))
       .then(response => new Uint8Array(decode(response.data)))
   );
 }

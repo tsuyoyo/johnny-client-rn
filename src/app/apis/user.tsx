@@ -14,11 +14,6 @@ export function postUserSignup(
 export function postUserLogin(
   request: proto.PostUserLoginRequest
 ): Promise<proto.PostUserLoginResponse> {
-  // console.log(`Login request - ${proto.PostUserLoginRequest.encode(request).finish()}`)
-  // var b = proto.PostUserLoginRequest.encode(request).finish();
-  // var s = "";
-  // b.forEach(d => s += `${d},`);
-  // console.log(s);
   return httpClient
     .post("/user/login", proto.PostUserLoginRequest.encode(request).finish())
     .then((binary: Uint8Array) => new Promise((resolve) => {
