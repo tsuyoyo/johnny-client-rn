@@ -24,7 +24,7 @@
     "google-protobuf": "^3.11.4",
     "johnny-proto": "github:tsuyoyo/johnny-protobuf#d94c5278a140376bcd327a38a5c77555dd9d7e25",
     "native-base": "^2.13.12",
-    "protobufjs": "^6.10.2",
+    "protobufjs": "^6.11.3",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.4",
